@@ -42,6 +42,7 @@ class WechatViewSet(View):
 class AuthView(WechatViewSet):
     def get(self, request):
         url = self.wechat_api.get_code_url()
+        print("redirect url is ", url)
         return redirect(url)
 
 
