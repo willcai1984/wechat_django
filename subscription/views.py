@@ -65,8 +65,11 @@ class GetInfoView(WechatViewSet):
                 'avatar': user_info['headimgurl'],
                 'openid': user_info['openid']
             }
-            return JsonResponse(user_data)
-
+            # return JsonResponse(user_data)
+            context = {}
+            context['user'] = user_data['nickname']
+            context['img_url'] = user_data['avatar']
+            return render('0home.html', context)
             # user = BeautyUsers.objects.filter(is_effective=True).filter(wechat=user_data['openid'])
             # if user.count() == 0:
             #     user = BeautyUsers.objects.create(username=user_data['nickname'],
