@@ -56,6 +56,7 @@ class GetInfoView(WechatViewSet):
             user_info, error = self.wechat_api.get_user_info(token, openid)
             if error:
                 return HttpResponseServerError('get access_token error')
+            print(user_info)
             user_data = {
                 'nickname': user_info['nickname'],
                 'sex': user_info['sex'],
@@ -67,9 +68,10 @@ class GetInfoView(WechatViewSet):
             }
             # return JsonResponse(user_data)
             context = {}
-            context['user'] = user_data['nickname']
+            context['user'] = user_data['nickname'].encode('iso8859-1').decode('utf-8')
             context['img_url'] = user_data['avatar']
-            return render(request, '0home.html', context)
+            return render(request, '0home_list.html', context)
+
             # user = BeautyUsers.objects.filter(is_effective=True).filter(wechat=user_data['openid'])
             # if user.count() == 0:
             #     user = BeautyUsers.objects.create(username=user_data['nickname'],
