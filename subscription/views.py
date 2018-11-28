@@ -8,6 +8,8 @@ from django.http import HttpResponse, HttpResponseServerError
 from django.shortcuts import render, redirect
 from .util import WechatLogin
 from django.http import JsonResponse
+from .models import User
+import django.utils.timezone as timezone
 
 
 # django默认开启csrf防护，这里使用@csrf_exempt去掉防护
@@ -67,9 +69,16 @@ class GetInfoView(WechatViewSet):
                 'openid': user_info['openid']
             }
             # return JsonResponse(user_data)
+            user = User.objects.filter(is_delete=0).filter(open_id=user_data['openid'])
             context = {}
             context['user'] = user_data['nickname'].encode('iso8859-1').decode('utf-8')
             context['img_url'] = user_data['avatar']
+            if user.count() == 0:
+                user = User.objects.create(nick_name=user_data['nickname'],
+                                           img_url=user_data['avatar'],
+                                           open_id=user_data['openid'],
+                                           create_time=timezone.now)
+
             return render(request, '0home_list.html', context)
 
             # user = BeautyUsers.objects.filter(is_effective=True).filter(wechat=user_data['openid'])
