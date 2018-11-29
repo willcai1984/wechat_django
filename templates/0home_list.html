@@ -40,18 +40,18 @@
                     <p style="font-size: 13px;color: #888888;">待抓取</p>
                 </div>
                 <a href="javascript:;" class="weui-btn weui-btn_mini weui-btn_primary">点击抓取</a>
-                {% elif account.user_status=1 %}
+                {% elif account.user_status == 1 %}
                 <div class="weui-cell__bd">
                     <p>{{account.user_name}}</p>
                     <p style="font-size: 13px;color: #888888;">抓取中</p>
                 </div>
-                {% elif account.user_status=2 %}
+                {% elif account.user_status == 2 %}
                 <div class="weui-cell__bd">
                     <p>{{account.user_name}}</p>
                     <p style="font-size: 13px;color: #888888;">抓取成功</p>
                 </div>
                 <a href="javascript:;" class="weui-btn weui-btn_mini weui-btn_primary">点击查看</a>
-                {% elif account.user_status=3 %}
+                {% elif account.user_status == 3 %}
                 <div class="weui-cell__bd">
                     <p>{{account.user_name}}</p>
                     <p style="font-size: 13px;color: #888888;">抓取失败</p>
