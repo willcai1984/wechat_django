@@ -78,7 +78,8 @@ class GetInfoView(WechatViewSet):
                                            img_url=user_data['avatar'],
                                            open_id=user_data['openid'],
                                            create_time=timezone.now)
-
+                user.save()
+            
             return render(request, '0home_list.html', context)
 
             # user = BeautyUsers.objects.filter(is_effective=True).filter(wechat=user_data['openid'])
