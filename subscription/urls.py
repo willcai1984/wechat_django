@@ -8,4 +8,5 @@ urlpatterns = [
     path('weixin/', views.weixin_check, name='weixin_check'),
     path('auth/', views.AuthView.as_view()),
     path('index', views.GetInfoView.as_view()),
+    path('add', views.AddAccountView.as_view()),
 ]

@@ -97,7 +97,8 @@ class GetInfoView(WechatViewSet):
             # return home(request)
 
 
-class CreatAccountView(WechatViewSet):
+class AddAccountView(WechatViewSet):
     def get(self, request):
         if 'uid' in request.GET:
             user_id = request.GET['uid']
+            return render(request, '1add_account.html')
