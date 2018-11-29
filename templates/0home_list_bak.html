@@ -10,9 +10,10 @@
 <body>
 <div class="page list js_show">
     <div class="page__hd">
-        <h1 class="page__title">你好，{{user}}</h1>
+        <h1 class="page__title">你好，蔡伟</h1>
         <!--<p class="page__desc">助你找回曾经的时光</p>-->
-        <img src="{{img_url}}" style="width: 50px;display: block">
+        <img src="https://wx.qq.com/cgi-bin/mmwebwx-bin/webwxgeticon?seq=632441430&username=@cb7c8d18abf522dee982e42cd61ec438&skey=@crypt_6e906851_0ed9eeaea79cf19c53951eecf46c91ac"
+             style="width: 50px;display: block">
     </div>
 
     <div class="page__bd page__bd_spacing">
@@ -26,42 +27,37 @@
             </div>
         </div>
         <div class="weui-cell">
-            <a href="1add_account.html?uid={{open_id}}" class="weui-btn weui-btn_mini weui-btn_primary">点击添加帐号</a>
+            <a href="javascript:;" class="weui-btn weui-btn_mini weui-btn_primary">点击添加帐号</a>
         </div>
-
-
         <div class="weui-cells">
-
-            {% for account in account_list %}
             <div class="weui-cell">
-                {% if account.user_status==0 %}
                 <div class="weui-cell__bd">
-                    <p>{{account.user_name}}</p>
+                    <p>xxxxxx1@sina.com</p>
                     <p style="font-size: 13px;color: #888888;">待抓取</p>
                 </div>
                 <a href="javascript:;" class="weui-btn weui-btn_mini weui-btn_primary">点击抓取</a>
-                {% elif account.user_status==1 %}
+            </div>
+            <div class="weui-cell">
                 <div class="weui-cell__bd">
-                    <p>{{account.user_name}}</p>
+                    <p>xxxxxx2@sina.com</p>
                     <p style="font-size: 13px;color: #888888;">抓取中</p>
                 </div>
-                {% elif account.user_status==2 %}
+            </div>
+            <div class="weui-cell">
                 <div class="weui-cell__bd">
-                    <p>{{account.user_name}}</p>
+                    <p>xxxxxx3@sina.com</p>
                     <p style="font-size: 13px;color: #888888;">抓取成功</p>
                 </div>
                 <a href="javascript:;" class="weui-btn weui-btn_mini weui-btn_primary">点击查看</a>
-                {% elif account.user_status==3 %}
+            </div>
+            <div class="weui-cell">
                 <div class="weui-cell__bd">
-                    <p>{{account.user_name}}</p>
+                    <p>xxxxxx4@sina.com</p>
                     <p style="font-size: 13px;color: #888888;">抓取失败</p>
                 </div>
                 <a href="javascript:;" class="weui-btn weui-btn_mini weui-btn_primary">重新抓取</a>
-                {% endif %}
             </div>
-            {% empty %}
-            <p>sorry,no accounts info here</p>
-            {% endfor %}
+
         </div>
     </div>
 </div>

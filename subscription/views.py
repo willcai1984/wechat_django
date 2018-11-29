@@ -9,6 +9,8 @@ from django.shortcuts import render, redirect
 from .util import WechatLogin
 from django.http import JsonResponse
 from .models import User
+from .models import Accout
+from .models import Account_detial
 import django.utils.timezone as timezone
 
 
@@ -69,17 +71,18 @@ class GetInfoView(WechatViewSet):
                 'openid': user_info['openid']
             }
             # return JsonResponse(user_data)
-            user = User.objects.filter(is_delete=0).filter(open_id=user_data['openid'])
-            context = {}
-            context['user'] = user_data['nickname'].encode('iso8859-1').decode('utf-8')
-            context['img_url'] = user_data['avatar']
-            if user.count() == 0:
-                user = User.objects.create(nick_name=user_data['nickname'],
-                                           img_url=user_data['avatar'],
-                                           open_id=user_data['openid'],
-                                           create_time=timezone.now)
-                user.save()
-            
+            users = User.objects.filter(is_delete=0).filter(open_id=user_data['openid'])
+            if users.count() == 0:
+                users = User.objects.create(nick_name=user_data['nickname'],
+                                            img_url=user_data['avatar'],
+                                            open_id=user_data['openid'],
+                                            create_time=timezone.now,
+                                            is_delete=0)
+                users.save()
+            accounts = Accout.objects.filter(is_delete=0).filter(open_id=user_data['openid'])
+
+            context = {'user': user_data['nickname'].encode('iso8859-1').decode('utf-8'), 'open_id': user_data['openid'],
+                       'img_url': user_data['avatar'], 'account_list': accounts}
             return render(request, '0home_list.html', context)
 
             # user = BeautyUsers.objects.filter(is_effective=True).filter(wechat=user_data['openid'])
@@ -93,3 +96,9 @@ class GetInfoView(WechatViewSet):
             #     login(request, user.first())
             # # 授权登录成功，进入主页
             # return home(request)
+
+
+class CreatAccountView(WechatViewSet):
+    def get(self, request):
+        if 'uid' in request.GET:
+            user_id = request.GET['uid']
