@@ -7,7 +7,7 @@ class User(models.Model):
     open_id = models.CharField('用户在微信的openid，全局唯一', max_length=32, default='')
     nick_name = models.CharField('用户在微信的昵称，可修改', max_length=50, default='')
     create_time = models.DateTimeField('创建日期', default=timezone.now)
-    img_url = models.CharField('用户在微信头像', max_length=64, default='')
+    img_url = models.CharField('用户在微信头像', max_length=256, default='')
     is_delete = models.IntegerField('逻辑删除，默认0，0正常，1删除', default=0)
 
 
