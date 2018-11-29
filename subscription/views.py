@@ -73,12 +73,11 @@ class GetInfoView(WechatViewSet):
             # return JsonResponse(user_data)
             users = User.objects.filter(is_delete=0).filter(open_id=user_data['openid'])
             if users.count() == 0:
-                user_dict = {'nick_name': user_data['nickname'],
-                             'img_url': user_data['avatar'],
-                             'open_id': user_data['openid'],
-                             'create_time': timezone.now,
-                             'is_delete': 0}
-                users = User.objects.create(user_dict)
+                users = User.objects.create(nick_name=user_data['nickname'],
+                                            img_url=user_data['avatar'],
+                                            open_id=user_data['openid'],
+                                            create_time=timezone.now,
+                                            is_delete=0)
                 # create不需要users.save()
             accounts = Accout.objects.filter(is_delete=0).filter(open_id=user_data['openid'])
 
