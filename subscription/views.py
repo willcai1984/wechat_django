@@ -78,10 +78,11 @@ class GetInfoView(WechatViewSet):
                                             open_id=user_data['openid'],
                                             create_time=timezone.now,
                                             is_delete=0)
-                users.save()
+                # users.save()
             accounts = Accout.objects.filter(is_delete=0).filter(open_id=user_data['openid'])
 
-            context = {'user': user_data['nickname'].encode('iso8859-1').decode('utf-8'), 'open_id': user_data['openid'],
+            context = {'user': user_data['nickname'].encode('iso8859-1').decode('utf-8'),
+                       'open_id': user_data['openid'],
                        'img_url': user_data['avatar'], 'account_list': accounts}
             return render(request, '0home_list.html', context)
 
