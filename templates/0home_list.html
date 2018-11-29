@@ -34,7 +34,7 @@
 
             {% for account in account_list %}
             <div class="weui-cell">
-                {% if account.user_status=0 %}
+                {% if account.user_status == 0 %}
                 <div class="weui-cell__bd">
                     <p>{{account.user_name}}</p>
                     <p style="font-size: 13px;color: #888888;">待抓取</p>
