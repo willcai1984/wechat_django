@@ -135,10 +135,12 @@ class GetAccountDetailView(WechatViewSet):
             account_id = request.GET['account_id']
             open_id = request.GET['open_id']
             users = User.objects.filter(is_delete=0).filter(open_id=open_id)
+            account = Accout.objects.get(id=account_id)
             account_details = AccountDetail.objects.filter(is_delete=0).filter(open_id=open_id).filter(
                 account_id=account_id)
             user_name = users[0].nick_name.encode('iso8859-1').decode('utf-8')
             user_img_url = users[0].img_url
+            user_account = account.user_name
             if account_details.count() == 0:
                 print('无记录')
             else:
@@ -146,9 +148,14 @@ class GetAccountDetailView(WechatViewSet):
                 blog_pwd = account_details[0].blog_pwd
                 photo_url = account_details[0].photo_url
                 photo_pwd = account_details[0].photo_pwd
-            for account in accounts:
-                account_list.append(account.user_name)
-            context = {'user': user_name,
-                       'open_id': open_id,
-                       'img_url': user_img_url}
-            return render(request, '1account_list.html', context)
+                is_pay = account_details[0].is_pay
+                context = {'user_name': user_name,
+                           'open_id': open_id,
+                           'account_id': account_id,
+                           'user_account': user_account,
+                           'user_img_url': user_img_url,
+                           'blog_url': blog_url,
+                           'blog_pwd': blog_pwd if is_pay else "********",
+                           'photo_url': photo_url,
+                           'photo_pwd': photo_pwd if is_pay else "********"}
+            return render(request, '2account_detail.html', context)
