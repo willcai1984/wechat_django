@@ -9,5 +9,5 @@ urlpatterns = [
     path('auth/', views.AuthView.as_view()),
     path('index/', views.GetInfoView.as_view()),
     path('account/', views.AccountListView.as_view()),
-    path('create/', views.create_account, name='create_account'),
+    path('add/', views.add_account, name='create_account'),
 ]
