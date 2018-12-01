@@ -51,6 +51,7 @@ def add_account(request):
         if is_pass:
             if Accout.objects.filter(is_delete=0).filter(open_id=open_id).filter(user_name=user_name).count() == 0:
                 Accout.objects.create(
+                    open_id=open_id,
                     user_name=user_name,
                     user_password=user_password
                 )
