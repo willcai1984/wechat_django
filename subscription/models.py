@@ -26,9 +26,9 @@ class Accout(models.Model):
 class AccountDetail(models.Model):
     account_id = models.CharField('账号id，全局唯一', max_length=16, default='')
     open_id = models.CharField('用户在微信的openid，为了安全性考虑，增加校验', max_length=32, default='')
-    blog_url = models.CharField('账号id的blog文件的存储url', max_length=32, default='')
+    blog_url = models.CharField('账号id的blog文件的存储url', max_length=256, default='')
     blog_pwd = models.CharField('账号id的blog文件解压密码', max_length=32, default='')
-    photo_url = models.CharField('账号id的photo文件的存储url', max_length=32, default='')
+    photo_url = models.CharField('账号id的photo文件的存储url', max_length=256, default='')
     photo_pwd = models.CharField('账号id的photo文件解压密码', max_length=32, default='')
     is_pay = models.IntegerField('支付判断位，默认0，0未付款，1已付款', default=0)
     pay_serial_no = models.CharField('微信支付流水号', max_length=40)
