@@ -90,12 +90,12 @@ class AccountListView(WechatViewSet):
         if 'uid' in request.GET:
             open_id = request.GET['uid']
             users = User.objects.filter(is_delete=0).filter(open_id=open_id)
-            user_name = users[0].get("nick_name").encode('iso8859-1').decode('utf-8')
-            user_img_url = users[0].get("img_url")
+            user_name = users[0].nick_name.encode('iso8859-1').decode('utf-8')
+            user_img_url = users[0].img_url
             accounts = Accout.objects.filter(is_delete=0).filter(open_id)
             account_list = []
             for account in accounts:
-                account_list.append(account.get('user_name'))
+                account_list.append(account.user_name)
             context = {'user': user_name,
                        'open_id': open_id,
                        'img_url': user_img_url}
