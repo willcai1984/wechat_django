@@ -1,18 +1,14 @@
 # -*- coding: utf-8 -*-
 import hashlib
-import requests
-from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpResponse
-from django.views.generic import View
-from django.http import HttpResponseRedirect
+
 from django.http import HttpResponse, HttpResponseServerError
 from django.shortcuts import render, redirect
-from .util import WechatLogin, check_account_renren
-from django.http import JsonResponse
-from .models import User
+from django.views.decorators.csrf import csrf_exempt
+from django.views.generic import View
+
 from .models import Accout
-from .models import Account_detial
-import django.utils.timezone as timezone
+from .models import User
+from .util import WechatLogin, check_account_renren
 
 
 # django默认开启csrf防护，这里使用@csrf_exempt去掉防护
@@ -59,7 +55,7 @@ def add_account(request):
                     user_password=user_password
                 )
             accounts = Accout.objects.filter(is_delete=0).filter(open_id=open_id)
-            context = {'user': users[0].nickname.encode('iso8859-1').decode('utf-8'),
+            context = {'user': users[0].nick_name.encode('iso8859-1').decode('utf-8'),
                        'open_id': open_id,
                        'img_url': users[0].img_url,
                        'account_list': accounts}
