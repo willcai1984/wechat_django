@@ -8,10 +8,10 @@
 import hashlib
 import random
 import time
+import requests
 from urllib import parse
 from xml.etree.ElementTree import fromstring
-
-import requests
+from bs4 import BeautifulSoup
 from . import utilconfig
 
 
@@ -114,3 +114,25 @@ class WechatLogin(WechatAPI):
         }
         return self.process_response_login(requests
                                            .get(self.config.defaults.get('wechat_browser_user_info'), params=params))
+
+
+def check_account_renren(user_name, user_password):
+    headers = {
+        'User-Agent': 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36'
+    }
+    url_3g = "http://3g.renren.com/login.do?autoLogin=true&&fx=0"
+    data = {'email': user_name,
+            'password': user_password}
+    req = requests.Session()
+    login_res = req.post(url_3g, data=data, headers=headers)
+    login_bs = BeautifulSoup(login_res.text, "html.parser")
+    if login_bs.title.string.strip() == '手机人人网':
+        # 成功登陆
+        print('账号密码验证成功')
+        return True
+    elif login_bs.title.string.strip() == '手机人人网 - 因为真实，所以精彩':
+        print('账号密码验证失败')
+        return False
+    else:
+        print('其他原因')
+        return False
