@@ -8,6 +8,7 @@ from django.views.generic import View
 
 from .models import Accout
 from .models import User
+from .models import AccountDetail
 from .util import WechatLogin, check_account_renren
 
 
@@ -39,9 +40,9 @@ def weixin_check(request):
 def add_account(request):
     if request.method == 'POST':
         user_name = request.POST['user_name']
-        user_password = request.POST['user_password']
+        user_pwd = request.POST['user_pwd']
         open_id = request.POST['user_id']
-        is_pass = check_account_renren(user_name, user_password)
+        is_pass = check_account_renren(user_name, user_pwd)
         users = User.objects.filter(is_delete=0).filter(open_id=open_id)
         accounts = Accout.objects.filter(is_delete=0).filter(open_id=open_id)
         context = {'user': users[0].nick_name.encode('iso8859-1').decode('utf-8'),
@@ -53,7 +54,7 @@ def add_account(request):
                 Accout.objects.create(
                     open_id=open_id,
                     user_name=user_name,
-                    user_password=user_password
+                    user_pwd=user_pwd
                 )
             accounts = Accout.objects.filter(is_delete=0).filter(open_id=open_id)
             context = {'user': users[0].nick_name.encode('iso8859-1').decode('utf-8'),
@@ -120,6 +121,31 @@ class AccountListView(WechatViewSet):
             user_img_url = users[0].img_url
             accounts = Accout.objects.filter(is_delete=0).filter(open_id=open_id)
             account_list = []
+            for account in accounts:
+                account_list.append(account.user_name)
+            context = {'user': user_name,
+                       'open_id': open_id,
+                       'img_url': user_img_url}
+            return render(request, '1account_list.html', context)
+
+
+class GetAccountDetailView(WechatViewSet):
+    def get(self, request):
+        if 'account_id' in request.GET:
+            account_id = request.GET['account_id']
+            open_id = request.GET['open_id']
+            users = User.objects.filter(is_delete=0).filter(open_id=open_id)
+            account_details = AccountDetail.objects.filter(is_delete=0).filter(open_id=open_id).filter(
+                account_id=account_id)
+            user_name = users[0].nick_name.encode('iso8859-1').decode('utf-8')
+            user_img_url = users[0].img_url
+            if account_details.count() == 0:
+                print('无记录')
+            else:
+                blog_url = account_details[0].blog_url
+                blog_pwd = account_details[0].blog_pwd
+                photo_url = account_details[0].photo_url
+                photo_pwd = account_details[0].photo_pwd
             for account in accounts:
                 account_list.append(account.user_name)
             context = {'user': user_name,

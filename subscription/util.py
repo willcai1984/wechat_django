@@ -116,13 +116,13 @@ class WechatLogin(WechatAPI):
                                            .get(self.config.defaults.get('wechat_browser_user_info'), params=params))
 
 
-def check_account_renren(user_name, user_password):
+def check_account_renren(user_name, user_pwd):
     headers = {
         'User-Agent': 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36'
     }
     url_3g = "http://3g.renren.com/login.do?autoLogin=true&&fx=0"
     data = {'email': user_name,
-            'password': user_password}
+            'password': user_pwd}
     req = requests.Session()
     login_res = req.post(url_3g, data=data, headers=headers)
     login_bs = BeautifulSoup(login_res.text, "html.parser")
