@@ -84,21 +84,19 @@ class GetInfoView(WechatViewSet):
                        'img_url': user_data['avatar'], 'account_list': accounts}
             return render(request, '0home_list.html', context)
 
-            # user = BeautyUsers.objects.filter(is_effective=True).filter(wechat=user_data['openid'])
-            # if user.count() == 0:
-            #     user = BeautyUsers.objects.create(username=user_data['nickname'],
-            #                                       wechat_avatar=user_data['avatar'],
-            #                                       wechat=user_data['openid'],
-            #                                       password='')
-            #     login(request, user)
-            # else:
-            #     login(request, user.first())
-            # # 授权登录成功，进入主页
-            # return home(request)
 
-
-class AddAccountView(WechatViewSet):
+class AccountListView(WechatViewSet):
     def get(self, request):
         if 'uid' in request.GET:
-            user_id = request.GET['uid']
-            return render(request, '1add_account.html')
+            open_id = request.GET['uid']
+            users = User.objects.filter(is_delete=0).filter(open_id=open_id)
+            user_name = users[0].get("nick_name").encode('iso8859-1').decode('utf-8')
+            user_img_url = users[0].get("img_url")
+            accounts = Accout.objects.filter(is_delete=0).filter(open_id)
+            account_list = []
+            for account in accounts:
+                account_list.append(account.get('user_name'))
+            context = {'user': user_name,
+                       'open_id': open_id,
+                       'img_url': user_img_url}
+            return render(request, '1account_list.html', context)

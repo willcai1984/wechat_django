@@ -12,7 +12,7 @@ class User(models.Model):
 
 
 class Accout(models.Model):
-    account_id = models.CharField('账号id，全局唯一', max_length=16, default='')
+    # account_id = models.CharField('账号id，全局唯一', max_length=16, default='')
     open_id = models.CharField('用户在微信的openid，全局唯一', max_length=32, default='')
     src_web = models.CharField('账号网站，如人人网', max_length=32, default='人人网')
     user_name = models.CharField('账号网站的用户名，同一open_id向下，src_web+user_name唯一', max_length=32, default='')
