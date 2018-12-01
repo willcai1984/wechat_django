@@ -92,7 +92,7 @@ class AccountListView(WechatViewSet):
             users = User.objects.filter(is_delete=0).filter(open_id=open_id)
             user_name = users[0].nick_name.encode('iso8859-1').decode('utf-8')
             user_img_url = users[0].img_url
-            accounts = Accout.objects.filter(is_delete=0).filter(open_id)
+            accounts = Accout.objects.filter(is_delete=0).filter(open_id=open_id)
             account_list = []
             for account in accounts:
                 account_list.append(account.user_name)
