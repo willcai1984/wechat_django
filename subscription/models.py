@@ -33,3 +33,5 @@ class AccountDetail(models.Model):
     is_pay = models.IntegerField('支付判断位，默认0，0未付款，1已付款', default=0)
     pay_serial_no = models.CharField('微信支付流水号', max_length=40)
     is_delete = models.IntegerField('逻辑删除，默认0，0正常，1删除', default=0)
+    create_time = models.DateTimeField('创建日期', default=timezone.now)
+    update_time = models.DateTimeField('最近一次修改日期', default=timezone.now)
