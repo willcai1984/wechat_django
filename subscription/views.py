@@ -100,5 +100,8 @@ class GetInfoView(WechatViewSet):
 class AddAccountView(WechatViewSet):
     def get(self, request):
         if 'uid' in request.GET:
-            user_id = request.GET['uid']
+            open_id = request.GET['uid']
+            users = User.objects.filter(is_delete=0).filter(open_id=open_id)
+            accounts = Accout.objects.filter(is_delete=0).filter(open_id=open_id)
+
             return render(request, '1add_account.html')
