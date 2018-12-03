@@ -1,17 +1,15 @@
 # -*- coding: utf-8 -*-
 import hashlib
-from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpResponse
-from django.views.generic import View
-from django.http import HttpResponseRedirect
+
 from django.http import HttpResponse, HttpResponseServerError
 from django.shortcuts import render, redirect
-from .util import WechatLogin
-from django.http import JsonResponse
-from .models import User
+from django.views.decorators.csrf import csrf_exempt
+from django.views.generic import View
+
 from .models import Accout
-from .models import Account_detial
-import django.utils.timezone as timezone
+from .models import User
+from .models import AccountDetail
+from .util import WechatLogin, check_account_renren
 
 
 # django默认开启csrf防护，这里使用@csrf_exempt去掉防护
@@ -37,6 +35,35 @@ def weixin_check(request):
             return HttpResponse('error')
     else:
         return HttpResponse('...')
+
+
+def add_account(request):
+    if request.method == 'POST':
+        user_name = request.POST['user_name']
+        user_pwd = request.POST['user_pwd']
+        open_id = request.POST['user_id']
+        is_pass = check_account_renren(user_name, user_pwd)
+        users = User.objects.filter(is_delete=0).filter(open_id=open_id)
+        accounts = Accout.objects.filter(is_delete=0).filter(open_id=open_id)
+        context = {'user': users[0].nick_name.encode('iso8859-1').decode('utf-8'),
+                   'open_id': open_id,
+                   'img_url': users[0].img_url,
+                   'account_list': accounts}
+        if is_pass:
+            if Accout.objects.filter(is_delete=0).filter(open_id=open_id).filter(user_name=user_name).count() == 0:
+                Accout.objects.create(
+                    open_id=open_id,
+                    user_name=user_name,
+                    user_pwd=user_pwd
+                )
+            accounts = Accout.objects.filter(is_delete=0).filter(open_id=open_id)
+            context = {'user': users[0].nick_name.encode('iso8859-1').decode('utf-8'),
+                       'open_id': open_id,
+                       'img_url': users[0].img_url,
+                       'account_list': accounts}
+            return render(request, '0home_list.html', context)
+        else:
+            return render(request, '0home_list.html', context)
 
 
 class WechatViewSet(View):
@@ -84,21 +111,51 @@ class GetInfoView(WechatViewSet):
                        'img_url': user_data['avatar'], 'account_list': accounts}
             return render(request, '0home_list.html', context)
 
-            # user = BeautyUsers.objects.filter(is_effective=True).filter(wechat=user_data['openid'])
-            # if user.count() == 0:
-            #     user = BeautyUsers.objects.create(username=user_data['nickname'],
-            #                                       wechat_avatar=user_data['avatar'],
-            #                                       wechat=user_data['openid'],
-            #                                       password='')
-            #     login(request, user)
-            # else:
-            #     login(request, user.first())
-            # # 授权登录成功，进入主页
-            # return home(request)
 
-
-class AddAccountView(WechatViewSet):
+class AccountListView(WechatViewSet):
     def get(self, request):
-        if 'uid' in request.GET:
-            user_id = request.GET['uid']
-            return render(request, '1add_account.html')
+        if 'open_id' in request.GET:
+            open_id = request.GET['open_id']
+            users = User.objects.filter(is_delete=0).filter(open_id=open_id)
+            user_name = users[0].nick_name.encode('iso8859-1').decode('utf-8')
+            user_img_url = users[0].img_url
+            accounts = Accout.objects.filter(is_delete=0).filter(open_id=open_id)
+            account_list = []
+            for account in accounts:
+                account_list.append(account.user_name)
+            context = {'user': user_name,
+                       'open_id': open_id,
+                       'img_url': user_img_url}
+            return render(request, '1account_list.html', context)
+
+
+class GetAccountDetailView(WechatViewSet):
+    def get(self, request):
+        if 'account_id' in request.GET:
+            account_id = request.GET['account_id']
+            open_id = request.GET['open_id']
+            users = User.objects.filter(is_delete=0).filter(open_id=open_id)
+            account = Accout.objects.get(id=account_id)
+            account_details = AccountDetail.objects.filter(is_delete=0).filter(open_id=open_id).filter(
+                account_id=account_id)
+            user_name = users[0].nick_name.encode('iso8859-1').decode('utf-8')
+            user_img_url = users[0].img_url
+            user_account = account.user_name
+            if account_details.count() == 0:
+                print('无记录')
+            else:
+                blog_url = account_details[0].blog_url
+                blog_pwd = account_details[0].blog_pwd
+                photo_url = account_details[0].photo_url
+                photo_pwd = account_details[0].photo_pwd
+                is_pay = account_details[0].is_pay
+                context = {'user_name': user_name,
+                           'open_id': open_id,
+                           'account_id': account_id,
+                           'user_account': user_account,
+                           'user_img_url': user_img_url,
+                           'blog_url': blog_url,
+                           'blog_pwd': blog_pwd if is_pay else "********",
+                           'photo_url': photo_url,
+                           'photo_pwd': photo_pwd if is_pay else "********"}
+            return render(request, '2account_detail.html', context)
