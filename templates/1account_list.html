@@ -5,13 +5,14 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <title>一迁-绑定账号页</title>
     <link rel="stylesheet" href="http://res.wx.qq.com/open/libs/weui/1.1.3/weui.min.css"/>
-    <link href="../media/css/example.css" rel="stylesheet">
+    <!--<link href="../media/css/example.css" rel="stylesheet">-->
     <script type="text/javascript">
         function checkUser() {
             var user_name = document.getElementById("user_name").value;
             var user_pwd = document.getElementById("user_pwd").value;
             if (!user_name) {
                 alert("用户名不能为空");
+                $.weui.topTips('请输入姓名');
                 return false;
             }
             if (!user_pwd) {
