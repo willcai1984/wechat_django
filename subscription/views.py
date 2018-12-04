@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
 
-from .models import Accout
+from .models import Account
 from .models import User
 from .models import AccountDetail
 from .util import WechatLogin, check_account_renren
@@ -44,19 +44,19 @@ def add_account(request):
         open_id = request.POST['user_id']
         is_pass = check_account_renren(user_name, user_pwd)
         users = User.objects.filter(is_delete=0).filter(open_id=open_id)
-        accounts = Accout.objects.filter(is_delete=0).filter(open_id=open_id)
+        accounts = Account.objects.filter(is_delete=0).filter(open_id=open_id)
         context = {'user': users[0].nick_name.encode('iso8859-1').decode('utf-8'),
                    'open_id': open_id,
                    'img_url': users[0].img_url,
                    'account_list': accounts}
         if is_pass:
-            if Accout.objects.filter(is_delete=0).filter(open_id=open_id).filter(user_name=user_name).count() == 0:
-                Accout.objects.create(
+            if Account.objects.filter(is_delete=0).filter(open_id=open_id).filter(user_name=user_name).count() == 0:
+                Account.objects.create(
                     open_id=open_id,
                     user_name=user_name,
                     user_pwd=user_pwd
                 )
-            accounts = Accout.objects.filter(is_delete=0).filter(open_id=open_id)
+            accounts = Account.objects.filter(is_delete=0).filter(open_id=open_id)
             context = {'user': users[0].nick_name.encode('iso8859-1').decode('utf-8'),
                        'open_id': open_id,
                        'img_url': users[0].img_url,
@@ -104,7 +104,7 @@ class GetInfoView(WechatViewSet):
                                             img_url=user_data['avatar'],
                                             open_id=user_data['openid'])
                 # create不需要users.save()
-            accounts = Accout.objects.filter(is_delete=0).filter(open_id=user_data['openid'])
+            accounts = Account.objects.filter(is_delete=0).filter(open_id=user_data['openid'])
 
             context = {'user': user_data['nickname'].encode('iso8859-1').decode('utf-8'),
                        'open_id': user_data['openid'],
@@ -119,7 +119,7 @@ class AccountListView(WechatViewSet):
             users = User.objects.filter(is_delete=0).filter(open_id=open_id)
             user_name = users[0].nick_name.encode('iso8859-1').decode('utf-8')
             user_img_url = users[0].img_url
-            accounts = Accout.objects.filter(is_delete=0).filter(open_id=open_id)
+            accounts = Account.objects.filter(is_delete=0).filter(open_id=open_id)
             account_list = []
             for account in accounts:
                 account_list.append(account.user_name)
@@ -135,7 +135,7 @@ class GetAccountDetailView(WechatViewSet):
             account_id = request.GET['account_id']
             open_id = request.GET['open_id']
             users = User.objects.filter(is_delete=0).filter(open_id=open_id)
-            account = Accout.objects.get(id=account_id)
+            account = Account.objects.get(id=account_id)
             account_details = AccountDetail.objects.filter(is_delete=0).filter(open_id=open_id).filter(
                 account_id=account_id)
             user_name = users[0].nick_name.encode('iso8859-1').decode('utf-8')
