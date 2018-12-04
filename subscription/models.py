@@ -21,7 +21,7 @@ class Account(models.Model):
     create_time = models.DateTimeField('创建日期', default=timezone.now)
     update_time = models.DateTimeField('最近一次修改日期', default=timezone.now)
     is_delete = models.IntegerField('逻辑删除，默认0，0正常，1删除', default=0)
-    desc = models.CharField('备注', max_length=100, default='')
+    desc = models.CharField('备注', max_length=256, default='')
 
 
 class AccountDetail(models.Model):
