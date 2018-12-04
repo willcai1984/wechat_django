@@ -35,7 +35,12 @@
                 dataType: 'json',
                 success: function (data) {
                     console.log(data)
-//                    document.getElementById("form").submit();
+                    if (data.status) {
+                        console.log(data.msg)
+                        document.getElementById("form").submit();
+                    } else {
+                        alert(data.msg);
+                    }
                 },
                 error: function () {
                     console.log("Error")
