@@ -71,24 +71,15 @@ def account_check(request):
         user_name = request.GET['user_name']
         user_pwd = request.GET['user_pwd']
         open_id = request.GET['user_id']
+        accounts = Account.objects.filter(is_delete=0).filter(open_id=open_id)
+        for account in accounts:
+            if account.user_name == user_name:
+                return JsonResponse({'status': False, 'msg': '此账号已存在现有列表中'})
         is_pass = check_account_renren(user_name, user_pwd)
         if is_pass:
-            result = {
-                'status': True,
-                'msg': '人人网登录验证成功'
-            }
-            accounts = Account.objects.filter(is_delete=0).filter(open_id=open_id)
-            for account in accounts:
-                if account.user_name == user_name:
-                    result = {
-                        'status': False,
-                        'msg': '此账号已存在现有列表中'
-                    }
+            result = {'status': True, 'msg': '人人网登录验证成功'}
         else:
-            result = {
-                'status': False,
-                'msg': '用户名密码错误'
-            }
+            result = {'status': False, 'msg': '用户名密码错误'}
         return JsonResponse(result)
 
 
