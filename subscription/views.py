@@ -5,7 +5,7 @@ from django.http import HttpResponse, HttpResponseServerError
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
-
+from django.http import JsonResponse
 from .models import Account
 from .models import User
 from .models import AccountDetail
@@ -37,7 +37,7 @@ def weixin_check(request):
         return HttpResponse('...')
 
 
-def add_account(request):
+def account_add(request):
     if request.method == 'POST':
         user_name = request.POST['user_name']
         user_pwd = request.POST['user_pwd']
@@ -64,6 +64,32 @@ def add_account(request):
             return render(request, '0home_list.html', context)
         else:
             return render(request, '0home_list.html', context)
+
+
+def account_check(request):
+    if request.method == 'GET':
+        user_name = request.GET['user_name']
+        user_pwd = request.GET['user_pwd']
+        open_id = request.GET['user_id']
+        is_pass = check_account_renren(user_name, user_pwd)
+        if is_pass:
+            result = {
+                'status': True,
+                'msg': '人人网登录验证成功'
+            }
+            accounts = Account.objects.filter(is_delete=0).filter(open_id=open_id)
+            for account in accounts:
+                if account.user_name == user_name:
+                    result = {
+                        'status': False,
+                        'msg': '此账号已存在现有列表中'
+                    }
+        else:
+            result = {
+                'status': False,
+                'msg': '用户名密码错误'
+            }
+        return JsonResponse(result)
 
 
 class WechatViewSet(View):
