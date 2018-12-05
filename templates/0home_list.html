@@ -12,26 +12,27 @@
 
 <div data-role="page" id="pageone" data-theme="a">
     <div data-role="header">
-        <h1>一迁</h1>
+        <h1>一迁-人人网帐号列表</h1>
     </div>
     <div data-role="main" class="ui-content">
-        <p>你好，{{user}},一迁助你找回曾经的时光</p>
+        <p>你好,{{user}},一迁助你找回曾经的时光</p>
+        <br><br>
         <a href="/subscription/account?open_id={{open_id}}" class="ui-btn">点击添加账户</a>
         <p>账户列表:</p>
         <ul data-role="listview" data-inset="true">
             {% for account in account_list %}
             {% if account.user_status == 0 %}
             <li><a href="/subscription/detail?account_id={{account.id}}&open_id={{open_id}}">{{account.user_name}}
-                <b>待抓取</b>></a></li>
+                <i>待抓取</i></a></li>
             {% elif account.user_status == 1 %}
             <li><a href="/subscription/detail?account_id={{account.id}}&open_id={{open_id}}">{{account.user_name}}
-                <b>抓取中</b></a></li>
+                <i>抓取中</i></a></li>
             {% elif account.user_status == 2 %}
             <li><a href="/subscription/detail?account_id={{account.id}}&open_id={{open_id}}">{{account.user_name}}
-                <b>抓取成功</b>></a></li>
+                <i>抓取成功</i></a></li>
             {% elif account.user_status == 3 %}
             <li><a href="/subscription/detail?account_id={{account.id}}&open_id={{open_id}}">{{account.user_name}}
-                <b>抓取失败</b>></a></li>
+                <i>抓取失败</i></a></li>
             {% endif %}
             {% empty %}
             <li>暂无记录</li>
@@ -39,7 +40,7 @@
         </ul>
     </div>
     <div data-role="footer">
-        <h1>欢迎回家</h1>
+        <h1>www.allmigrate.cn</h1>
     </div>
 </div>
 </body>
