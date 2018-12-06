@@ -15,12 +15,13 @@
         <h1>一迁-帐号列表</h1>
     </div>
 
-    <div align="center"><img style="width: 100px;display: block" src="{{img_url}}"/></div>
+    <div align="center"><img style="height:200px; width: 200px; margin-top:100px; border-radius:20px;display: block"
+                             src="{{img_url}}"/></div>
 
     <div data-role="main" class="ui-content">
-        <p>你好,{{user}},一迁助你找回曾经的时光</p>
+        <div align="center"><p>你好,{{user}},一迁助你找回曾经的时光</p></div>
         <br><br>
-        <a href="/subscription/account?open_id={{open_id}}" class="ui-btn" data-transition="pop">点击添加账户</a>
+        <a href="/subscription/account?open_id={{open_id}}" class="ui-btn" data-transition="pop" data-theme="b">点击添加账户</a>
         <p>账户列表:</p>
         <ul data-role="listview" data-inset="true">
             {% for account in account_list %}
