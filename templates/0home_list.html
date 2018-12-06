@@ -21,8 +21,8 @@
     <div data-role="main" class="ui-content">
         <div align="center"><p>你好,{{user}},一迁助你找回曾经的时光</p></div>
         <br><br>
-        <a href="/subscription/account?open_id={{open_id}}" class="ui-btn" data-transition="pop"
-           data-theme="b">点击添加账户</a>
+        <a href="/subscription/account?open_id={{open_id}}" class="ui-btn-b ui-corner-all"
+           data-transition="pop">点击添加账户</a>
         <p>账户列表:</p>
         <ul data-role="listview" data-inset="true">
             {% for account in account_list %}
