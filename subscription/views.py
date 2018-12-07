@@ -163,6 +163,7 @@ class GetAccountDetailView(WechatViewSet):
                            'account_id': account_id,
                            'user_account_name': user_account_name,
                            'user_account_pwd': user_account_pwd,
+                           'user_account_status': user_account_status,
                            'user_img_url': user_img_url,
                            'blog_url': blog_url,
                            'blog_pwd': blog_pwd if is_pay else "********",
