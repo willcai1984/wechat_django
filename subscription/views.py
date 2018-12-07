@@ -24,28 +24,36 @@ def account_add(request):
         user_name = request.POST['user_name']
         user_pwd = request.POST['user_pwd']
         open_id = request.POST['user_id']
-        is_pass = check_account_renren(user_name, user_pwd)
         users = User.objects.filter(is_delete=0).filter(open_id=open_id)
+        if Account.objects.filter(is_delete=0).filter(open_id=open_id).filter(user_name=user_name).count() == 0:
+            Account.objects.create(
+                open_id=open_id,
+                user_name=user_name,
+                user_pwd=user_pwd
+            )
         accounts = Account.objects.filter(is_delete=0).filter(open_id=open_id)
         context = {'user': users[0].nick_name.encode('iso8859-1').decode('utf-8'),
                    'open_id': open_id,
                    'img_url': users[0].img_url,
                    'account_list': accounts}
-        if is_pass:
-            if Account.objects.filter(is_delete=0).filter(open_id=open_id).filter(user_name=user_name).count() == 0:
-                Account.objects.create(
-                    open_id=open_id,
-                    user_name=user_name,
-                    user_pwd=user_pwd
-                )
-            accounts = Account.objects.filter(is_delete=0).filter(open_id=open_id)
-            context = {'user': users[0].nick_name.encode('iso8859-1').decode('utf-8'),
-                       'open_id': open_id,
-                       'img_url': users[0].img_url,
-                       'account_list': accounts}
-            return render(request, '0home_list.html', context)
-        else:
-            return render(request, '0home_list.html', context)
+        return render(request, '0home_list.html', context)
+
+
+def account_update(request):
+    if request.method == 'POST':
+        user_name = request.POST['user_name']
+        user_pwd = request.POST['user_pwd']
+        open_id = request.POST['user_id']
+        users = User.objects.filter(is_delete=0).filter(open_id=open_id)
+        account = Account.objects.filter(is_delete=0).filter(open_id=open_id).get(user_name=user_name)
+        account.user_pwd = user_pwd
+        account.save()
+        accounts = Account.objects.filter(is_delete=0).filter(open_id=open_id)
+        context = {'user': users[0].nick_name.encode('iso8859-1').decode('utf-8'),
+                   'open_id': open_id,
+                   'img_url': users[0].img_url,
+                   'account_list': accounts}
+        return render(request, '0home_list.html', context)
 
 
 def account_check(request):
@@ -139,8 +147,9 @@ class GetAccountDetailView(WechatViewSet):
                 account_id=account_id)
             user_name = users[0].nick_name.encode('iso8859-1').decode('utf-8')
             user_img_url = users[0].img_url
-            user_account = account.user_name
-            user_status = user_status_dict.get(account.user_status)
+            user_account_name = account.user_name
+            user_account_pwd = account.user_pwd
+            user_account_status = user_status_dict.get(account.user_status)
             if account_details.count() == 0:
                 print('无记录')
             else:

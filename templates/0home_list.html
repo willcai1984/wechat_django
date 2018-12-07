@@ -20,11 +20,10 @@
 
     <div data-role="main" class="ui-content">
         <div align="center"><p>你好{{user}},一迁助你找回曾经的时光</p></div>
-        <br><br>
+        <br>
         <a href="/subscription/account?open_id={{open_id}}" class="ui-btn ui-btn-b ui-corner-all"
-           data-transition="pop">点击添加账户</a>
-        <br><br>
-        <p>账户列表:</p>
+           data-transition="pop">点击添加账户</a><br>
+        <p>账户列表:</p><br>
         <ul data-role="listview" data-inset="true" data-theme="b">
             {% for account in account_list %}
             {% if account.user_status == 0 %}
