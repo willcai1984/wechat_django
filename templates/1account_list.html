@@ -56,12 +56,10 @@
     <div data-role="header">
         <h1>一迁-绑定帐号</h1>
     </div>
-
-    <div align="center"><img style="height:50px; width: 150px; margin-top:20px; border-radius:10px;display: block"
+    <div align="center"><img style="height:50px; width: 160px; margin-top:20px; border-radius:10px;display: block"
                              src="http://a.xnimg.cn/nx/apps/login/cssimg/logo-big.jpg"/></div>
-
     <div data-role="main" class="ui-content">
-        <div align="center"><p>你好,{{user}},请绑定你的人人网帐号</p></div>
+        <div align="center"><p>你好{{user}},请验证帐号</p></div>
         <br><br>
         <form id="form" action="/subscription/add/" method="post">
             <div class="ui-fieldcontain">
@@ -73,6 +71,10 @@
             </div>
         </form>
         <a class="ui-btn ui-btn-b ui-corner-all" onclick="checkUser();">提交</a>
+    </div>
+
+    <div data-role="footer">
+        <h1>www.allmigrate.cn</h1>
     </div>
 </div>
 

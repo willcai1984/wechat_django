@@ -11,30 +11,12 @@ from .models import User
 from .models import AccountDetail
 from .util import WechatLogin, check_account_renren
 
-
-# django默认开启csrf防护，这里使用@csrf_exempt去掉防护
-@csrf_exempt
-def weixin_check(request):
-    if request.method == 'GET':
-        signature = request.GET.get('signature', None)
-        timestamp = request.GET.get('timestamp', None)
-        nonce = request.GET.get('nonce', None)
-        echostr = request.GET.get('echostr', None)
-        token = 'yiqian'
-        hashlist = [token, timestamp, nonce]
-        hashlist.sort()
-        print('[token, timestamp, nonce]', hashlist)
-        hashstr = ''.join(hashlist).encode('utf-8')
-        print('hashstr before sha1', hashstr)
-        hashstr = hashlib.sha1(hashstr).hexdigest()
-        print('hashstr after sha1', hashstr)
-        print('signature is ', signature)
-        if hashstr == signature:
-            return HttpResponse(echostr)
-        else:
-            return HttpResponse('error')
-    else:
-        return HttpResponse('...')
+user_status_dict = {
+    0: "待抓取",
+    1: "抓取中",
+    2: "抓取成功",
+    3: "抓取失败"
+}
 
 
 def account_add(request):
@@ -158,6 +140,7 @@ class GetAccountDetailView(WechatViewSet):
             user_name = users[0].nick_name.encode('iso8859-1').decode('utf-8')
             user_img_url = users[0].img_url
             user_account = account.user_name
+            user_status = user_status_dict.get(account.user_status)
             if account_details.count() == 0:
                 print('无记录')
             else:
@@ -176,3 +159,28 @@ class GetAccountDetailView(WechatViewSet):
                            'photo_url': photo_url,
                            'photo_pwd': photo_pwd if is_pay else "********"}
             return render(request, '2account_detail.html', context)
+
+
+# django默认开启csrf防护，这里使用@csrf_exempt去掉防护
+@csrf_exempt
+def weixin_check(request):
+    if request.method == 'GET':
+        signature = request.GET.get('signature', None)
+        timestamp = request.GET.get('timestamp', None)
+        nonce = request.GET.get('nonce', None)
+        echostr = request.GET.get('echostr', None)
+        token = 'yiqian'
+        hashlist = [token, timestamp, nonce]
+        hashlist.sort()
+        print('[token, timestamp, nonce]', hashlist)
+        hashstr = ''.join(hashlist).encode('utf-8')
+        print('hashstr before sha1', hashstr)
+        hashstr = hashlib.sha1(hashstr).hexdigest()
+        print('hashstr after sha1', hashstr)
+        print('signature is ', signature)
+        if hashstr == signature:
+            return HttpResponse(echostr)
+        else:
+            return HttpResponse('error')
+    else:
+        return HttpResponse('...')
