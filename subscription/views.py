@@ -169,6 +169,7 @@ class GetAccountDetailView(WechatViewSet):
                            'blog_pwd': blog_pwd if is_pay else "********",
                            'photo_url': photo_url,
                            'photo_pwd': photo_pwd if is_pay else "********"}
+                print(context)
             return render(request, '2account_detail.html', context)
 
 
