@@ -17,69 +17,48 @@
     <div align="center"><img style="height:50px; width: 160px; margin-top:20px; border-radius:10px;display: block"
                              src="http://a.xnimg.cn/nx/apps/login/cssimg/logo-big.jpg"/></div>
     <div data-role="main" class="ui-content">
-        <div align="center"><p>你好{{user_name}},</p></div>
+        <div align="center"><p>你好{{user_name}},{{user_account}}状态是{{user_status}}</p></div>
         <br><br>
-
-
-
-
-        <form id="form" action="/subscription/add/" method="post">
-            <div class="ui-fieldcontain">
-                <input type="hidden" id="user_id" name="user_id" value="{{open_id}}">
-                <label for="user_name">帐号:</label>
-                <input type="text" name="user_name" id="user_name" placeholder="请输入用户名">
-                <label for="user_pwd">密码:</label>
-                <input type="password" name="user_pwd" id="user_pwd" placeholder="请输入密码">
-            </div>
+        <form id="form" action="/subscription/update/" method="post">
+            <fieldset data-role="collapsible">
+                <legend>点击修改账户信息</legend>
+                <div class="ui-fieldcontain">
+                    <input type="hidden" id="user_id" name="user_id" value="{{open_id}}">
+                    <label for="user_name">帐号:</label>
+                    <input type="text" name="user_name" id="user_name" placeholder="请输入用户名">
+                    <label for="user_pwd">密码:</label>
+                    <input type="password" name="user_pwd" id="user_pwd" placeholder="请输入密码">
+                </div>
+                <a class="ui-btn ui-btn-b ui-corner-all" onclick="checkUser();">提交</a>
+            </fieldset>
         </form>
-        <a class="ui-btn ui-btn-b ui-corner-all" onclick="checkUser();">提交</a>
+        {% if user_status == 抓取成功 %}
+        <p>日志:</p>
+        <div class="ui-grid-a">
+            <div class="ui-block-a">
+                <a href="{{blog_url}}" class="ui-btn ui-corner-all ui-shadow">点击下载</a><br>
+            </div>
+            <div class="ui-block-b">
+                <a href="#" class="ui-btn ui-corner-all ui-shadow">{{blog_pwd}}</a><br>
+            </div>
+        </div>
+
+        <p>相册:</p>
+        <div class="ui-grid-a">
+            <div class="ui-block-a">
+                <a href="{{photo_url}}" class="ui-btn ui-corner-all ui-shadow">点击下载</a><br>
+            </div>
+            <div class="ui-block-b">
+                <a href="#" class="ui-btn ui-corner-all ui-shadow">{{photo_pwd}}</a><br>
+            </div>
+        </div>
+
+        {% endif %}
+
     </div>
 
     <div data-role="footer">
         <h1>www.allmigrate.cn</h1>
-    </div>
-</div>
-
-
-<div class="page flex js_show">
-    <div class="page__hd">
-        <h1 class="page__title">一迁</h1>
-        <img src="{{img_url}}" style="width: 50px;display: block">
-        <p class="page__desc">{{user_account}}</p>
-    </div>
-
-    <div class="page__bd page__bd_spacing">
-        <div class="weui-flex">
-            <div class="weui-flex__item">
-                <div class="placeholder">日志</div>
-            </div>
-            <div class="weui-flex__item">
-                <div class="placeholder">
-                    <a href="{{blog_url}}">点击下载</a>
-                </div>
-            </div>
-            <div class="weui-flex__item">
-                <div class="placeholder">{{blog_pwd}}</div>
-            </div>
-        </div>
-
-        <div class="weui-flex">
-            <div class="weui-flex__item">
-                <div class="placeholder">相册</div>
-            </div>
-            <div class="weui-flex__item">
-                <div class="placeholder">
-                    <a href="{{photo_url}}">点击下载</a>
-                </div>
-            </div>
-            <div class="weui-flex__item">
-                <div class="placeholder">{{photo_pwd}}</div>
-            </div>
-        </div>
-
-        <div class="weui-btn-area">
-            <a class="weui-btn weui-btn_primary" href="javascript:" id="showTooltips">付款/关闭</a>
-        </div>
     </div>
 </div>
 
