@@ -18,13 +18,12 @@
             var user_pwd = $("#user_pws").val();
             if (!user_name) {
                 console.log("用户名不能为空");
-                toast("用户名不能为空", 20000);
+                toast("用户名不能为空", 30000);
                 return false;
             }
             if (!user_pwd) {
                 console.log("密码不能为空");
-//                $("#err_info").html("密码不能为空").hide(3000);
-                toast("密码不能为空", 20000);
+                toast("密码不能为空", 30000);
                 return false;
             }
             $.ajax({
@@ -45,23 +44,19 @@
                         $("#form").submit()
                     } else {
                         console.log(data.msg);
-                        toast(data.msg, 20000);
-//                        $("#err_pop_info").html(data.msg)
-//                        $(location).prop('href', '#pagetwo')
+                        toast(data.msg, 30000);
                     }
                 },
                 error: function () {
-                    console.log("Error")
-//                    $("#err_pop_info").html(data.msg)
-//                    $(location).prop('href', '#pagetwo')
+                    console.log("Error");
+                    toast(data, 30000);
                 }
             })
-
         }
     </script>
 
     <script type="text/javascript">
-        var toast = function (msg) {
+        var toast = function (msg, time_out) {
             $("<div class='ui-loader ui-overlay-shadow ui-body-e ui-corner-all'><h3>" + msg + "</h3></div>")
                 .css({
                     display: "block",
@@ -73,7 +68,7 @@
                     left: ($(window).width() - 284) / 2,
                     top: $(window).height() / 2
                 })
-                .appendTo($.mobile.pageContainer).delay(1500)
+                .appendTo($.mobile.pageContainer).delay(time_out)
                 .fadeOut(400, function () {
                     $(this).remove();
                 });
@@ -106,19 +101,6 @@
         <a class="ui-btn ui-btn-b ui-corner-all" onclick="checkUser();">提交</a><br>
         <a class="ui-btn ui-corner-all" href="http://safe.renren.com/3g/forgetpwd/findpwd" data-transition="pop">忘记密码？前往人人网找回</a><br>
     </div>
-    <!--<a href="#myPopupDialog" data-rel="popup" data-position-to="window" data-transition="fade" id="err_btn"-->
-    <!--class="ui-btn ui-corner-all ui-shadow ui-btn-inline" type="hidden">打开错误弹窗</a>-->
-    <!--<div data-role="popup" id="myPopupDialog">-->
-    <!--<div data-role="header">-->
-    <!--<h1>头部文本</h1>-->
-    <!--</div>-->
-    <!--<div data-role="main" class="ui-content">-->
-    <!--<h2>欢迎访问弹窗对话框!</h2>-->
-    <!--<p>jQuery Mobile 非常有意思!</p>-->
-    <!--<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b ui-icon-back ui-btn-icon-left"-->
-    <!--data-rel="back">返回</a>-->
-    <!--</div>-->
-    <!--</div>-->
 
     <div data-role="footer">
         <h1>www.allmigrate.cn</h1>
