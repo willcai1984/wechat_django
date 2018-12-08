@@ -13,11 +13,12 @@
             var user_name = $("#user_name").val();
             var user_pwd = $("#user_pws").val();
             if (!user_name) {
-                alert("用户名不能为空");
+                console.log("用户名不能为空");
+                $("#err_info").html("用户名不能为空").hide(3000);
                 return false;
             }
             if (!user_pwd) {
-                alert("密码不能为空");
+                console.log("密码不能为空");
                 return false;
             }
             $.ajax({
@@ -28,15 +29,14 @@
                     user_pwd: user_pwd
                 },
                 processData: true,
-//                contentType: "application/json",
                 contentType: "application/x-www-form-urlencoded",
                 type: 'get',
                 dataType: 'json',
                 success: function (data) {
-                    console.log(data)
+                    console.log(data);
                     if (data.status) {
-                        console.log(data.msg)
-                        document.getElementById("form").submit();
+                        console.log(data.msg);
+                        $("#form").submit()
                     } else {
                         alert(data.msg);
                     }
@@ -64,6 +64,7 @@
         <form id="form" action="/subscription/add/" method="post">
             <div class="ui-fieldcontain">
                 <input type="hidden" id="user_id" name="user_id" value="{{open_id}}">
+                <p id="err_info" style="color:red;"></p>
                 <label for="user_name">帐号:</label>
                 <input type="text" name="user_name" id="user_name" placeholder="请输入用户名"><br>
                 <label for="user_pwd">密码:</label>
@@ -72,13 +73,24 @@
             </div>
         </form>
         <a class="ui-btn ui-btn-b ui-corner-all" onclick="checkUser();">提交</a><br>
-        <a class="ui-btn ui-corner-all" href="http://safe.renren.com/3g/forgetpwd/findpwd">忘记密码？前往人人网找回</a><br>
+        <a class="ui-btn ui-corner-all" href="http://safe.renren.com/3g/forgetpwd/findpwd" data-transition="pop">忘记密码？前往人人网找回</a><br>
     </div>
-
     <div data-role="footer">
         <h1>www.allmigrate.cn</h1>
     </div>
 </div>
+
+<!--<div data-role="page" data-dialog="true" id="pagetwo">-->
+<!--<div data-role="header">-->
+<!--<h1>错误提醒</h1>-->
+<!--</div>-->
+<!--<div data-role="main" class="ui-content">-->
+<!--<p id="err_info">系统错误</p>-->
+<!--<a class="ui-btn ui-corner-all" href="#pageone">我知道了</a>-->
+<!--</div>-->
+
+<!--</div>-->
+
 
 </body>
 </html>
