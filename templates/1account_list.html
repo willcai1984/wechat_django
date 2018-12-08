@@ -57,7 +57,7 @@
 
     <script type="text/javascript">
         var toast = function (msg, time_out) {
-            var $toast = $('<div class="ui-loader ui-overlay-shadow ui-body-e ui-corner-all"><h3>' + message + '</h3></div>');
+            var $toast = $('<div class="ui-loader ui-overlay-shadow ui-body-e ui-corner-all"><h3>' + msg + '</h3></div>');
             $toast.css({
                 display: "block",
                 opacity: 0.90,
@@ -68,11 +68,11 @@
                 left: "50%",
                 top: "50%"
             });
+            $toast.appendTo($.mobile.pageContainer).delay(time_out);
             var removeToast = function () {
                 $(this).remove();
             };
             $toast.click(removeToast);
-            $toast.appendTo($.mobile.pageContainer).delay(time_out);
             $toast.fadeOut(400, removeToast);
 
         }
