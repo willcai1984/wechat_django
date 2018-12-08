@@ -18,7 +18,7 @@
             var user_pwd = $("#user_pwd").val();
             if (!user_name) {
                 console.log("用户名不能为空");
-                toast("用户名不能为空", 2000);
+                toast("用户名不能为空", 200000);
                 return false;
             }
             if (!user_pwd) {
@@ -60,7 +60,7 @@
             var $toast = $('<div class="ui-loader ui-overlay-shadow ui-body-e ui-corner-all"><h3>' + msg + '</h3></div>');
             $toast.css({
                 display: "block",
-                opacity: 0.90,
+                opacity: 1.0,
                 position: "fixed",
                 padding: "7px",
                 "text-align": "center",
