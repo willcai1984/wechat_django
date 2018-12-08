@@ -5,8 +5,12 @@
     <title>一迁-帐号绑定页</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.css">
-    <script src="https://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
+    <!--<script src="https://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>-->
     <script src="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/weui/1.1.3/style/weui.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/jquery-weui/1.2.1/css/jquery-weui.min.css">
+    <script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>
     <script type="text/javascript">
         function checkUser() {
             var user_id = $("#user_id").val();
@@ -14,13 +18,13 @@
             var user_pwd = $("#user_pws").val();
             if (!user_name) {
                 console.log("用户名不能为空");
-//                $("#err_info").html("用户名不能为空").hide(3000);
-                $("#err_btn").click()
+                $.toast("用户名不能为空", 20000);
                 return false;
             }
             if (!user_pwd) {
                 console.log("密码不能为空");
-                $("#err_info").html("密码不能为空").hide(3000);
+//                $("#err_info").html("密码不能为空").hide(3000);
+                $.toast("密码不能为空", 20000);
                 return false;
             }
             $.ajax({
@@ -41,7 +45,8 @@
                         $("#form").submit()
                     } else {
                         console.log(data.msg);
-                        $("#err_pop_info").html(data.msg)
+                        $.toast(data.msg, 20000);
+//                        $("#err_pop_info").html(data.msg)
 //                        $(location).prop('href', '#pagetwo')
                     }
                 },
@@ -70,7 +75,7 @@
         <form id="form" action="/subscription/add/" method="post">
             <div class="ui-fieldcontain">
                 <input type="hidden" id="user_id" name="user_id" value="{{open_id}}">
-                <p id="err_info" style="color:red;"></p>
+                <!--<p id="err_info" style="color:red;"></p>-->
                 <label for="user_name">帐号:</label>
                 <input type="text" name="user_name" id="user_name" placeholder="请输入用户名"><br>
                 <label for="user_pwd">密码:</label>
@@ -81,19 +86,19 @@
         <a class="ui-btn ui-btn-b ui-corner-all" onclick="checkUser();">提交</a><br>
         <a class="ui-btn ui-corner-all" href="http://safe.renren.com/3g/forgetpwd/findpwd" data-transition="pop">忘记密码？前往人人网找回</a><br>
     </div>
-    <a href="#myPopupDialog" data-rel="popup" data-position-to="window" data-transition="fade" id="err_btn"
-       class="ui-btn ui-corner-all ui-shadow ui-btn-inline" type="hidden">打开错误弹窗</a>
-    <div data-role="popup" id="myPopupDialog">
-        <div data-role="header">
-            <h1>头部文本</h1>
-        </div>
-        <div data-role="main" class="ui-content">
-            <h2>欢迎访问弹窗对话框!</h2>
-            <p>jQuery Mobile 非常有意思!</p>
-            <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b ui-icon-back ui-btn-icon-left"
-               data-rel="back">返回</a>
-        </div>
-    </div>
+    <!--<a href="#myPopupDialog" data-rel="popup" data-position-to="window" data-transition="fade" id="err_btn"-->
+    <!--class="ui-btn ui-corner-all ui-shadow ui-btn-inline" type="hidden">打开错误弹窗</a>-->
+    <!--<div data-role="popup" id="myPopupDialog">-->
+    <!--<div data-role="header">-->
+    <!--<h1>头部文本</h1>-->
+    <!--</div>-->
+    <!--<div data-role="main" class="ui-content">-->
+    <!--<h2>欢迎访问弹窗对话框!</h2>-->
+    <!--<p>jQuery Mobile 非常有意思!</p>-->
+    <!--<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b ui-icon-back ui-btn-icon-left"-->
+    <!--data-rel="back">返回</a>-->
+    <!--</div>-->
+    <!--</div>-->
 
     <div data-role="footer">
         <h1>www.allmigrate.cn</h1>
