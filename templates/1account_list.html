@@ -57,21 +57,24 @@
 
     <script type="text/javascript">
         var toast = function (msg, time_out) {
-            $("<div class='ui-loader ui-overlay-shadow ui-body-e ui-corner-all'><h3>" + msg + "</h3></div>")
-                .css({
-                    display: "block",
-                    opacity: 0.90,
-                    position: "fixed",
-                    padding: "7px",
-                    "text-align": "center",
-                    width: "270px",
-                    left: ($(window).width() - 284) / 2,
-                    top: $(window).height() / 2
-                })
-                .appendTo($.mobile.pageContainer).delay(time_out)
-                .fadeOut(400, function () {
-                    $(this).remove();
-                });
+            var $toast = $('<div class="ui-loader ui-overlay-shadow ui-body-e ui-corner-all"><h3>' + message + '</h3></div>');
+            $toast.css({
+                display: "block",
+                opacity: 0.90,
+                position: "fixed",
+                padding: "7px",
+                "text-align": "center",
+                width: "270px",
+                left: "50%",
+                top: "50%"
+            });
+            var removeToast = function () {
+                $(this).remove();
+            };
+            $toast.click(removeToast);
+            $toast.appendTo($.mobile.pageContainer).delay(time_out);
+            $toast.fadeOut(400, removeToast);
+
         }
     </script>
 </head>
