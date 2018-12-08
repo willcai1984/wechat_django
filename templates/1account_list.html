@@ -18,12 +18,12 @@
             var user_pwd = $("#user_pws").val();
             if (!user_name) {
                 console.log("用户名不能为空");
-                toast("用户名不能为空", 30000);
+                toast("用户名不能为空", 3000);
                 return false;
             }
             if (!user_pwd) {
                 console.log("密码不能为空");
-                toast("密码不能为空", 30000);
+                toast("密码不能为空", 3000);
                 return false;
             }
             $.ajax({
@@ -44,12 +44,12 @@
                         $("#form").submit()
                     } else {
                         console.log(data.msg);
-                        toast(data.msg, 30000);
+                        toast(data.msg, 3000);
                     }
                 },
                 error: function () {
                     console.log("Error");
-                    toast(data, 30000);
+                    toast(data, 3000);
                 }
             })
         }
