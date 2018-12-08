@@ -19,6 +19,7 @@
             }
             if (!user_pwd) {
                 console.log("密码不能为空");
+                $("#err_info").html("密码不能为空").hide(3000);
                 return false;
             }
             $.ajax({
@@ -38,11 +39,15 @@
                         console.log(data.msg);
                         $("#form").submit()
                     } else {
-                        alert(data.msg);
+                        console.log(data.msg);
+                        $("#err_pop_info").html(data.msg)
+                        $(location).prop('href', '#pagetwo')
                     }
                 },
                 error: function () {
                     console.log("Error")
+                    $("#err_pop_info").html(data.msg)
+                    $(location).prop('href', '#pagetwo')
                 }
             })
 
@@ -80,16 +85,16 @@
     </div>
 </div>
 
-<!--<div data-role="page" data-dialog="true" id="pagetwo">-->
-<!--<div data-role="header">-->
-<!--<h1>错误提醒</h1>-->
-<!--</div>-->
-<!--<div data-role="main" class="ui-content">-->
-<!--<p id="err_info">系统错误</p>-->
-<!--<a class="ui-btn ui-corner-all" href="#pageone">我知道了</a>-->
-<!--</div>-->
+<div data-role="page" data-dialog="true" id="pagetwo">
+    <div data-role="header">
+        <h1>错误提醒</h1>
+    </div>
+    <div data-role="main" class="ui-content">
+        <p id="err_pop_info">系统错误</p>
+        <a class="ui-btn ui-corner-all" href="#pageone">我知道了</a>
+    </div>
 
-<!--</div>-->
+</div>
 
 
 </body>
