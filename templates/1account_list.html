@@ -7,10 +7,10 @@
     <link rel="stylesheet" href="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.css">
     <!--<script src="https://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>-->
     <script src="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.bootcss.com/weui/1.1.3/style/weui.min.css">
-    <link rel="stylesheet" href="https://cdn.bootcss.com/jquery-weui/1.2.1/css/jquery-weui.min.css">
+    <!--<link rel="stylesheet" href="https://cdn.bootcss.com/weui/1.1.3/style/weui.min.css">-->
+    <!--<link rel="stylesheet" href="https://cdn.bootcss.com/jquery-weui/1.2.1/css/jquery-weui.min.css">-->
     <script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
-    <script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>
+    <!--<script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>-->
     <script type="text/javascript">
         function checkUser() {
             var user_id = $("#user_id").val();
@@ -18,13 +18,13 @@
             var user_pwd = $("#user_pws").val();
             if (!user_name) {
                 console.log("用户名不能为空");
-                $.toast("用户名不能为空", 20000);
+                toast("用户名不能为空", 20000);
                 return false;
             }
             if (!user_pwd) {
                 console.log("密码不能为空");
 //                $("#err_info").html("密码不能为空").hide(3000);
-                $.toast("密码不能为空", 20000);
+                toast("密码不能为空", 20000);
                 return false;
             }
             $.ajax({
@@ -45,18 +45,38 @@
                         $("#form").submit()
                     } else {
                         console.log(data.msg);
-                        $.toast(data.msg, 20000);
+                        toast(data.msg, 20000);
 //                        $("#err_pop_info").html(data.msg)
 //                        $(location).prop('href', '#pagetwo')
                     }
                 },
                 error: function () {
                     console.log("Error")
-                    $("#err_pop_info").html(data.msg)
+//                    $("#err_pop_info").html(data.msg)
 //                    $(location).prop('href', '#pagetwo')
                 }
             })
 
+        }
+    </script>
+
+    <script type="text/javascript">
+        var toast = function (msg) {
+            $("<div class='ui-loader ui-overlay-shadow ui-body-e ui-corner-all'><h3>" + msg + "</h3></div>")
+                .css({
+                    display: "block",
+                    opacity: 0.90,
+                    position: "fixed",
+                    padding: "7px",
+                    "text-align": "center",
+                    width: "270px",
+                    left: ($(window).width() - 284) / 2,
+                    top: $(window).height() / 2
+                })
+                .appendTo($.mobile.pageContainer).delay(1500)
+                .fadeOut(400, function () {
+                    $(this).remove();
+                });
         }
     </script>
 </head>
