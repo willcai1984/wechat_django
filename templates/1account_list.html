@@ -14,7 +14,8 @@
             var user_pwd = $("#user_pws").val();
             if (!user_name) {
                 console.log("用户名不能为空");
-                $("#err_info").html("用户名不能为空").hide(3000);
+//                $("#err_info").html("用户名不能为空").hide(3000);
+                $("#err_btn").click()
                 return false;
             }
             if (!user_pwd) {
@@ -41,13 +42,13 @@
                     } else {
                         console.log(data.msg);
                         $("#err_pop_info").html(data.msg)
-                        $(location).prop('href', '#pagetwo')
+//                        $(location).prop('href', '#pagetwo')
                     }
                 },
                 error: function () {
                     console.log("Error")
                     $("#err_pop_info").html(data.msg)
-                    $(location).prop('href', '#pagetwo')
+//                    $(location).prop('href', '#pagetwo')
                 }
             })
 
@@ -80,22 +81,24 @@
         <a class="ui-btn ui-btn-b ui-corner-all" onclick="checkUser();">提交</a><br>
         <a class="ui-btn ui-corner-all" href="http://safe.renren.com/3g/forgetpwd/findpwd" data-transition="pop">忘记密码？前往人人网找回</a><br>
     </div>
+    <a href="#myPopupDialog" data-rel="popup" data-position-to="window" data-transition="fade" id="err_btn"
+       class="ui-btn ui-corner-all ui-shadow ui-btn-inline" type="hidden">打开错误弹窗</a>
+    <div data-role="popup" id="myPopupDialog">
+        <div data-role="header">
+            <h1>头部文本</h1>
+        </div>
+        <div data-role="main" class="ui-content">
+            <h2>欢迎访问弹窗对话框!</h2>
+            <p>jQuery Mobile 非常有意思!</p>
+            <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b ui-icon-back ui-btn-icon-left"
+               data-rel="back">返回</a>
+        </div>
+    </div>
+
     <div data-role="footer">
         <h1>www.allmigrate.cn</h1>
     </div>
 </div>
-
-<div data-role="page" data-dialog="true" id="pagetwo">
-    <div data-role="header">
-        <h1>错误提醒</h1>
-    </div>
-    <div data-role="main" class="ui-content">
-        <p id="err_pop_info">系统错误</p>
-        <a class="ui-btn ui-corner-all" href="#pageone">我知道了</a>
-    </div>
-
-</div>
-
 
 </body>
 </html>
