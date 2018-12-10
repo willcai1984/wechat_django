@@ -11,13 +11,15 @@
         function checkUser() {
             var user_id = $("#user_id").val();
             var user_name = $("#user_name").val();
-            var user_pwd = $("#user_pws").val();
+            var user_pwd = $("#user_pwd").val();
             if (!user_name) {
-                alert("用户名不能为空");
+                console.log("用户名不能为空");
+                toast("用户名不能为空", 2000);
                 return false;
             }
             if (!user_pwd) {
-                alert("密码不能为空");
+                console.log("密码不能为空");
+                toast("密码不能为空", 2000);
                 return false;
             }
             $.ajax({
@@ -28,23 +30,46 @@
                     user_pwd: user_pwd
                 },
                 processData: true,
-//                contentType: "application/json",
                 contentType: "application/x-www-form-urlencoded",
                 type: 'get',
                 dataType: 'json',
                 success: function (data) {
-                    console.log(data)
+                    console.log(data);
                     if (data.status) {
-                        console.log(data.msg)
-                        document.getElementById("form").submit();
+                        console.log(data.msg);
+                        $("#form").submit()
                     } else {
-                        alert(data.msg);
+                        console.log(data.msg);
+                        toast(data.msg, 2000);
                     }
                 },
                 error: function () {
-                    console.log("Error")
+                    console.log("Error");
+                    toast(data, 2000);
                 }
             })
+        }
+    </script>
+    <script type="text/javascript">
+        var toast = function (msg, time_out) {
+            var $toast = $('<div class="ui-loader ui-overlay-shadow ui-body-e ui-corner-all"><h3>' + msg + '</h3></div>');
+            $toast.css({
+                display: "block",
+                opacity: 1.0,
+                position: "fixed",
+                padding: "7px",
+                "text-align": "center",
+                width: "80%",
+                left: "10%",
+                top: "20%",
+                background: "#D3D3D3"
+            });
+            $toast.appendTo($.mobile.pageContainer).delay(time_out);
+            var removeToast = function () {
+                $(this).remove();
+            };
+            $toast.click(removeToast);
+            $toast.fadeOut(400, removeToast);
 
         }
     </script>
@@ -95,7 +120,6 @@
             </div>
         </div>
         {% endif %}
-
 
         <a href="#" class="ui-btn ui-btn-b ui-corner-all">支付获取解压密码</a>
 
