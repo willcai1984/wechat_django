@@ -188,21 +188,22 @@ class AccountPay(WechatViewSet):
             total_fee = 1
             spbill_create_ip = '127.0.0.1'
             notify_url = 'http://www.show.netcome.net/success'
-            order = WechatOrder(body=body,
-                                trade_type=trade_type,
-                                out_trade_no=out_trade_no,
-                                openid=request.session['openid'],
-                                total_fee=total_fee,
-                                spbill_create_ip=spbill_create_ip,
-                                notify_url=notify_url)
-            datas, error = order.order_post()
-            if error:
-                return HttpResponseServerError('get access_token error')
-            order_data = datas['prepay_id'].encode('iso8859-1').decode('utf-8'),
-            pay = WechatPayAPI(package=order_data[0])
-            dic = pay.get_dic()
-            dic["package"] = "prepay_id=" + order_data[0]
-            return HttpResponse(json.dumps(dic), content_type="application/json")
+            # order = WechatOrder(body=body,
+            #                     trade_type=trade_type,
+            #                     out_trade_no=out_trade_no,
+            #                     openid=request.session['openid'],
+            #                     total_fee=total_fee,
+            #                     spbill_create_ip=spbill_create_ip,
+            #                     notify_url=notify_url)
+            # datas, error = order.order_post()
+            # if error:
+            #     return HttpResponseServerError('get access_token error')
+            # order_data = datas['prepay_id'].encode('iso8859-1').decode('utf-8'),
+            # pay = WechatPayAPI(package=order_data[0])
+            # dic = pay.get_dic()
+            # dic["package"] = "prepay_id=" + order_data[0]
+            # return HttpResponse(json.dumps(dic), content_type="application/json")
+            return HttpResponse('pass')
 
 
 # django默认开启csrf防护，这里使用@csrf_exempt去掉防护

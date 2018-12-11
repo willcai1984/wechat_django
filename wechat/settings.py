@@ -24,7 +24,7 @@ SECRET_KEY = '9y_&a#8d$0^1s-w*dpkh!p13#zs&!_%d&0g1uqsdze$u+t#h7u'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.allmigrate.cn']
+ALLOWED_HOSTS = ['.allmigrate.cn', 'localhost','127.0.0.1']
 
 # Application definition
 
@@ -36,17 +36,21 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'subscription.apps.SubscriptionConfig',
+    'mybook.apps.MybookConfig',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'wechat.urls'
 
