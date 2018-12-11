@@ -10,6 +10,7 @@ from .models import Account
 from .models import User
 from .models import AccountDetail
 from .util import WechatLogin, check_account_renren
+from .pay_setting import *
 
 user_status_dict = {
     0: "待抓取",
@@ -175,35 +176,37 @@ class GetAccountDetailView(WechatViewSet):
 
 class AccountPay(WechatViewSet):
     @staticmethod
-    def post(request):
-        # 这个if判断是我传入的订单的id，测试的时候没有传入，你可以测试的时候去掉这个判断
-        if 'order' in request.POST:
-            # order = request.POST['order']
-            # order = Order.objects.filter(is_effective=True).filter(uuid=order).first()
-            body = 'JSP支付测试'
-            trade_type = 'JSAPI'
-            import random
-            rand = random.randint(0, 100)
-            out_trade_no = 'HSTY3JMKFHGA325' + str(rand)
-            total_fee = 1
-            spbill_create_ip = '127.0.0.1'
-            notify_url = 'http://www.show.netcome.net/success'
-            # order = WechatOrder(body=body,
-            #                     trade_type=trade_type,
-            #                     out_trade_no=out_trade_no,
-            #                     openid=request.session['openid'],
-            #                     total_fee=total_fee,
-            #                     spbill_create_ip=spbill_create_ip,
-            #                     notify_url=notify_url)
-            # datas, error = order.order_post()
-            # if error:
-            #     return HttpResponseServerError('get access_token error')
-            # order_data = datas['prepay_id'].encode('iso8859-1').decode('utf-8'),
-            # pay = WechatPayAPI(package=order_data[0])
-            # dic = pay.get_dic()
-            # dic["package"] = "prepay_id=" + order_data[0]
-            # return HttpResponse(json.dumps(dic), content_type="application/json")
-            return HttpResponse('pass')
+    def get(self, request, *args, **kwargs):
+        """
+        用户点击一个路由或者扫码进入这个views.py中的函数，首先获取用户的openid,
+        使用jsapi方式支付需要此参数
+        :param self:
+        :param request:
+        :param args:
+        :param kwargs:
+        :return:
+        """
+        getInfo = request.GET.get('getInfo', None)
+        openid = request.COOKIES.get('openid', '')
+        if not openid:
+            if getInfo != 'yes':
+                # 构造一个url，携带一个重定向的路由参数，
+                # 然后访问微信的一个url,微信会回调你设置的重定向路由，并携带code参数
+                return redirect(get_redirect_url())
+            elif getInfo == 'yes':
+                # 我设置的重定向路由还是回到这个函数中，其中设置了一个getInfo=yes的参数
+                # 获取用户的openid
+                openid = get_openid(request.GET.get('code'), request.GET.get('state', ''))
+                if not openid:
+                    return HttpResponse('获取用户openid失败')
+                response = render(request, 'wx_js_pay.html', context={'params': get_jsapi_params(openid)})
+                response.set_cookie('openid', openid, expires=60 * 60 * 24 * 30)
+                return response
+
+            else:
+                return HttpResponse('获取机器编码失败')
+        else:
+            return render(request, 'wx_js_pay.html', context={'params': get_jsapi_params(openid)})
 
 
 # django默认开启csrf防护，这里使用@csrf_exempt去掉防护

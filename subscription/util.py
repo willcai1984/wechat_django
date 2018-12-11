@@ -12,12 +12,12 @@ import requests
 from urllib import parse
 from xml.etree.ElementTree import fromstring
 from bs4 import BeautifulSoup
-from . import utilconfig
+from . import pay_setting
 
 
 class WechatAPI(object):
     def __init__(self):
-        self.config = utilconfig
+        self.config = pay_setting
         self._access_token = None
         self._openid = None
 
@@ -86,17 +86,17 @@ class WechatLogin(WechatAPI):
     def get_code_url(self):
         """微信内置浏览器获取网页授权code的url"""
         url = self.config.defaults.get('wechat_browser_code') + (
-                '?appid=%s&redirect_uri=%s&response_type=code&scope=%s&state=%s#wechat_redirect' %
-                (self.config.APPID, parse.quote(self.config.REDIRECT_URI),
-                 self.config.SCOPE, self.config.STATE if self.config.STATE else ''))
+            '?appid=%s&redirect_uri=%s&response_type=code&scope=%s&state=%s#wechat_redirect' %
+            (self.config.APPID, parse.quote(self.config.REDIRECT_URI),
+             self.config.SCOPE, self.config.STATE if self.config.STATE else ''))
         return url
 
     def get_code_url_pc(self):
         """pc浏览器获取网页授权code的url"""
         url = self.config.defaults.get('pc_QR_code') + (
-                '?appid=%s&redirect_uri=%s&response_type=code&scope=%s&state=%s#wechat_redirect' %
-                (self.config.APPID, parse.quote(self.config.REDIRECT_URI), self.config.PC_LOGIN_SCOPE,
-                 self.config.STATE if self.config.STATE else ''))
+            '?appid=%s&redirect_uri=%s&response_type=code&scope=%s&state=%s#wechat_redirect' %
+            (self.config.APPID, parse.quote(self.config.REDIRECT_URI), self.config.PC_LOGIN_SCOPE,
+             self.config.STATE if self.config.STATE else ''))
         return url
 
     def get_access_token(self, code):
@@ -125,25 +125,6 @@ class WechatLogin(WechatAPI):
         return self.process_response_login(requests
                                            .get(self.config.defaults.get('wechat_browser_user_info'), params=params))
 
-
-class WechatPayAPI(WechatAPI):
-    def __init__(self, package, sign_type=None):
-        super().__init__()
-        self.appId = self.config.APPID
-        self.timeStamp = self.create_time_stamp()
-        self.nonceStr = self.create_nonce_str()
-        self.package = package
-        self.signType = sign_type
-        self.dic = {"appId": self.appId, "timeStamp": "{0}".format(self.create_time_stamp()),
-                    "nonceStr": self.create_nonce_str(), "package": "prepay_id={0}".format(self.package)}
-        if sign_type is not None:
-            self.dic["signType"] = sign_type
-        else:
-            self.dic["signType"] = "MD5"
-
-    def get_dic(self):
-        self.dic['paySign'] = self.get_sign()
-        return self.dic
 
 
 def check_account_renren(user_name, user_pwd):

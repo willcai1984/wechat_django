@@ -15,9 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.views.generic import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('subscription/', include('subscription.urls')),
-    path('mybook/', include('mybook.urls'))
+    path('mybook/', include('mybook.urls')),
+    path('MP_verify_b0IXmshwq84TMTJu.txt',
+         TemplateView.as_view(template_name='MP_verify_b0IXmshwq84TMTJu.txt', content_type='text/plain'))
 ]
