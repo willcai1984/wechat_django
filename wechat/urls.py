@@ -13,6 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
@@ -21,6 +22,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('subscription/', include('subscription.urls')),
     path('mybook/', include('mybook.urls')),
+    url(r'^MP_verify_b0IXmshwq84TMTJu\.txt$',
+        TemplateView.as_view(template_name='MP_verify_b0IXmshwq84TMTJu.txt', content_type='text/plain')),
     path('MP_verify_b0IXmshwq84TMTJu.txt',
          TemplateView.as_view(template_name='MP_verify_b0IXmshwq84TMTJu.txt', content_type='text/plain'))
 ]
