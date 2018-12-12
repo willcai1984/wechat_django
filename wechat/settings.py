@@ -24,7 +24,7 @@ SECRET_KEY = '9y_&a#8d$0^1s-w*dpkh!p13#zs&!_%d&0g1uqsdze$u+t#h7u'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.allmigrate.cn', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['.allmigrate.cn', 'localhost', '127.0.0.1', '123.206.198.29']
 
 # Application definition
 

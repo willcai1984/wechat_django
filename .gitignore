@@ -17,3 +17,5 @@
 /appfront/package.json
 /appfront/package-lock.json
 /appfront/.gitignore
+/appfront/node_modules
+/appfront/README.md
