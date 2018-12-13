@@ -202,7 +202,6 @@ class AccountPay(View):
                 response = render(request, '3weixin_pay.html', context={'params': get_jsapi_params(openid)})
                 response.set_cookie('openid', openid, expires=60 * 60 * 24 * 30)
                 return response
-
             else:
                 return HttpResponse('获取机器编码失败')
         else:
