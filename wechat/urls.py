@@ -23,8 +23,8 @@ urlpatterns = [
     path('subscription/', include('subscription.urls')),
     path('mybook/', include('mybook.urls')),
     url(r'^$', TemplateView.as_view(template_name="index.html")),
-    # url(r'^MP_verify_b0IXmshwq84TMTJu\.txt$',
-    #     TemplateView.as_view(template_name='MP_verify_b0IXmshwq84TMTJu.txt', content_type='text/plain')),
+    url(r'^MP_verify_b0IXmshwq84TMTJu\.txt$',
+        TemplateView.as_view(template_name='MP_verify_b0IXmshwq84TMTJu.txt', content_type='text/plain')),
     # path('MP_verify_b0IXmshwq84TMTJu.txt',
     #      TemplateView.as_view(template_name='MP_verify_b0IXmshwq84TMTJu.txt', content_type='text/plain'))
 ]
