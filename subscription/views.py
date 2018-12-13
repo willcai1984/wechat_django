@@ -187,8 +187,9 @@ class AccountPay(View):
         :return:
         """
         # getInfo = request.GET.get('getInfo', None)
-        openid = request.COOKIES.get('openid', '')
-        if not openid:
+        # open_id = request.COOKIES.get('open_id', '')
+        open_id = request.GET['open_id']
+        if not open_id:
             # if getInfo != 'yes':
             #     # 构造一个url，携带一个重定向的路由参数，
             #     # 然后访问微信的一个url,微信会回调你设置的重定向路由，并携带code参数
@@ -196,16 +197,16 @@ class AccountPay(View):
             # elif getInfo == 'yes':
             # 我设置的重定向路由还是回到这个函数中，其中设置了一个getInfo=yes的参数
             # 获取用户的openid
-            openid = get_openid(request.GET.get('code'), request.GET.get('state', ''))
-            if not openid:
+            open_id = get_openid(request.GET.get('code'), request.GET.get('state', ''))
+            if not open_id:
                 return HttpResponse('获取用户openid失败')
-            response = render(request, '3weixin_pay.html', context={'params': get_jsapi_params(openid)})
-            response.set_cookie('openid', openid, expires=60 * 60 * 24 * 30)
+            response = render(request, '3weixin_pay.html', context={'params': get_jsapi_params(open_id)})
+            response.set_cookie('openid', open_id, expires=60 * 60 * 24 * 30)
             return response
         # else:
         #     return HttpResponse('获取机器编码失败')
         else:
-            return render(request, '3weixin_pay.html', context={'params': get_jsapi_params(openid)})
+            return render(request, '3weixin_pay.html', context={'params': get_jsapi_params(open_id)})
 
 
 # django默认开启csrf防护，这里使用@csrf_exempt去掉防护
