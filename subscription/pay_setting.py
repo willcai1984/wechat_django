@@ -179,7 +179,7 @@ def get_jsapi_params(openid):
     # print(params)
     # 调用微信统一下单支付接口url
     notify_result = wx_pay_unifiedorde(params)
-    print('notify_result:' + notify_result)
+    print('notify_result:' + str(notify_result, encoding="utf-8"))
     params['prepay_id'] = trans_xml_to_dict(notify_result)['prepay_id']
     params['timeStamp'] = int(time.time())
     params['nonceStr'] = random_str(16)
