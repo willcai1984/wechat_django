@@ -12,6 +12,7 @@ from .models import AccountDetail
 from .util import WechatLogin, check_account_renren
 from .pay_setting import *
 from django.http import HttpResponseRedirect
+
 user_status_dict = {
     0: "待抓取",
     1: "抓取中",
@@ -185,24 +186,24 @@ class AccountPay(View):
         :param kwargs:
         :return:
         """
-        getInfo = request.GET.get('getInfo', None)
+        # getInfo = request.GET.get('getInfo', None)
         openid = request.COOKIES.get('openid', '')
         if not openid:
-            if getInfo != 'yes':
-                # 构造一个url，携带一个重定向的路由参数，
-                # 然后访问微信的一个url,微信会回调你设置的重定向路由，并携带code参数
-                return HttpResponseRedirect(get_redirect_url())
-            elif getInfo == 'yes':
-                # 我设置的重定向路由还是回到这个函数中，其中设置了一个getInfo=yes的参数
-                # 获取用户的openid
-                openid = get_openid(request.GET.get('code'), request.GET.get('state', ''))
-                if not openid:
-                    return HttpResponse('获取用户openid失败')
-                response = render(request, '3weixin_pay.html', context={'params': get_jsapi_params(openid)})
-                response.set_cookie('openid', openid, expires=60 * 60 * 24 * 30)
-                return response
-            else:
-                return HttpResponse('获取机器编码失败')
+            # if getInfo != 'yes':
+            #     # 构造一个url，携带一个重定向的路由参数，
+            #     # 然后访问微信的一个url,微信会回调你设置的重定向路由，并携带code参数
+            #     return HttpResponseRedirect(get_redirect_url())
+            # elif getInfo == 'yes':
+            # 我设置的重定向路由还是回到这个函数中，其中设置了一个getInfo=yes的参数
+            # 获取用户的openid
+            openid = get_openid(request.GET.get('code'), request.GET.get('state', ''))
+            if not openid:
+                return HttpResponse('获取用户openid失败')
+            response = render(request, '3weixin_pay.html', context={'params': get_jsapi_params(openid)})
+            response.set_cookie('openid', openid, expires=60 * 60 * 24 * 30)
+            return response
+        # else:
+        #     return HttpResponse('获取机器编码失败')
         else:
             return render(request, '3weixin_pay.html', context={'params': get_jsapi_params(openid)})
 
