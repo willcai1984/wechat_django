@@ -11,7 +11,7 @@ from .models import User
 from .models import AccountDetail
 from .util import WechatLogin, check_account_renren
 from .pay_setting import *
-
+from django.http import HttpResponseRedirect
 user_status_dict = {
     0: "待抓取",
     1: "抓取中",
@@ -175,7 +175,6 @@ class GetAccountDetailView(WechatViewSet):
 
 
 class AccountPay(View):
-    @staticmethod
     def get(self, request, *args, **kwargs):
         """
         用户点击一个路由或者扫码进入这个views.py中的函数，首先获取用户的openid,
@@ -192,7 +191,7 @@ class AccountPay(View):
             if getInfo != 'yes':
                 # 构造一个url，携带一个重定向的路由参数，
                 # 然后访问微信的一个url,微信会回调你设置的重定向路由，并携带code参数
-                return redirect(get_redirect_url())
+                return HttpResponseRedirect(get_redirect_url())
             elif getInfo == 'yes':
                 # 我设置的重定向路由还是回到这个函数中，其中设置了一个getInfo=yes的参数
                 # 获取用户的openid
