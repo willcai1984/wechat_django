@@ -200,13 +200,11 @@ class AccountPay(View):
             open_id = get_openid(request.GET.get('code'), request.GET.get('state', ''))
             if not open_id:
                 return HttpResponse('获取用户openid失败')
-            response = render(request, '3weixin_pay.html', context={'params': get_jsapi_params(open_id)})
-            response.set_cookie('openid', open_id, expires=60 * 60 * 24 * 30)
-            return response
         # else:
         #     return HttpResponse('获取机器编码失败')
-        else:
-            return render(request, '3weixin_pay.html', context={'params': get_jsapi_params(open_id)})
+        response = render(request, '3weixin_pay.html', context={'params': get_jsapi_params(open_id)})
+        response.set_cookie('openid', open_id, expires=60 * 60 * 24 * 30)
+        return response
 
 
 # django默认开启csrf防护，这里使用@csrf_exempt去掉防护
