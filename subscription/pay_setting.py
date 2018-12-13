@@ -9,9 +9,9 @@ from bs4 import BeautifulSoup
 
 # ----------------------------------------------微信公众号---------------------------------------------- #
 # 公众号appid
-APPID = 'wxf3869a2e18d1792e'
+APPID = 'wxe0ed9288edba9ae9'
 # 公众号AppSecret
-APPSECRET = 'd700be05e6d8fd9de86d521aed281291'
+APPSECRET = '8ae4df9fa4a47db6c78ba13a439a309f'
 
 # ----------------------------------------------回调页面---------------------------------------------- #
 # 用户授权获取code后的回调页面，如果需要实现验证登录就必须填写
@@ -37,12 +37,12 @@ STATE = ''
 LANG = 'zh_CN'
 
 # ----------------------------------------------微信商户平台---------------------------------------------- #
-MCH_ID = "xxx"  # 商户号
-API_KEY = "xxx"  # 微信商户平台(pay.weixin.qq.com) -->账户设置 -->API安全 -->密钥设置，设置完成后把密钥复制到这里
+MCH_ID = "1519457441"  # 商户号
+API_KEY = "renrenbanjia13141234567890123456"  # 微信商户平台(pay.weixin.qq.com) -->账户设置 -->API安全 -->密钥设置，设置完成后把密钥复制到这里
 
 UFDODER_URL = "https://api.mch.weixin.qq.com/pay/unifiedorder"  # url是微信下单api
 NOTIFY_URL = "http://xxx/wxpay/pay_result/"  # 微信支付结果回调接口,需要你自定义
-CREATE_IP = 'xxx'  # 你服务器上的ip
+CREATE_IP = '123.206.198.29'  # 你服务器上的ip
 
 
 # 生成随机字符串
@@ -173,7 +173,7 @@ def get_jsapi_params(openid):
         'spbill_create_ip': CREATE_IP,  # 发送请求服务器的IP地址
         'openid': openid,
         'notify_url': NOTIFY_URL,  # 支付成功后微信回调路由
-        'body': 'xxx公司',  # 商品描述
+        'body': '浙江春芽科技有限公司',  # 商品描述
         'trade_type': 'JSAPI',  # 公众号支付类型
     }
     # print(params)

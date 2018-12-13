@@ -174,7 +174,7 @@ class GetAccountDetailView(WechatViewSet):
             return render(request, '2account_detail.html', context)
 
 
-class AccountPay(WechatViewSet):
+class AccountPay(View):
     @staticmethod
     def get(self, request, *args, **kwargs):
         """
@@ -199,14 +199,14 @@ class AccountPay(WechatViewSet):
                 openid = get_openid(request.GET.get('code'), request.GET.get('state', ''))
                 if not openid:
                     return HttpResponse('获取用户openid失败')
-                response = render(request, 'wx_js_pay.html', context={'params': get_jsapi_params(openid)})
+                response = render(request, '3weixin_pay.html', context={'params': get_jsapi_params(openid)})
                 response.set_cookie('openid', openid, expires=60 * 60 * 24 * 30)
                 return response
 
             else:
                 return HttpResponse('获取机器编码失败')
         else:
-            return render(request, 'wx_js_pay.html', context={'params': get_jsapi_params(openid)})
+            return render(request, '3weixin_pay.html', context={'params': get_jsapi_params(openid)})
 
 
 # django默认开启csrf防护，这里使用@csrf_exempt去掉防护
