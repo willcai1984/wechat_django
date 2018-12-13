@@ -34,21 +34,19 @@
     },
     methods: {
       addBook() {
-        this.$http.get('http://127.0.0.1:8000/mybook/add_book?book_name=' + this.input)
+        this.$http.get('/mybook/add_book?book_name=' + this.input)
           .then((response) => {
             var res = JSON.parse(response.bodyText)
-            if (res.error_num == 0
-            ) {
+            if (res.error_num == 0) {
               this.showBooks()
-            }
-            else {
+            } else {
               this.$message.error('新增书籍失败，请重试')
               console.log(res['msg'])
             }
           })
       },
       showBooks() {
-        this.$http.get('http://127.0.0.1:8000/mybook/show_books')
+        this.$http.get('/mybook/show_books')
           .then((response) => {
             var res = JSON.parse(response.bodyText)
             console.log(res)
@@ -63,6 +61,7 @@
     }
   }
 </script>
+
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
