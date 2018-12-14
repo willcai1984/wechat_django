@@ -163,7 +163,8 @@ class GetAccountDetailView(WechatViewSet):
                            'blog_url': '',
                            'blog_pwd': '',
                            'photo_url': '',
-                           'photo_pwd': ''}
+                           'photo_pwd': '',
+                           'params': get_jsapi_params(open_id)}
             else:
                 blog_url = account_details[0].blog_url
                 blog_pwd = account_details[0].blog_pwd
@@ -180,7 +181,8 @@ class GetAccountDetailView(WechatViewSet):
                            'blog_url': blog_url,
                            'blog_pwd': blog_pwd if is_pay else "********",
                            'photo_url': photo_url,
-                           'photo_pwd': photo_pwd if is_pay else "********"}
+                           'photo_pwd': photo_pwd if is_pay else "********",
+                           'params': get_jsapi_params(open_id)}
             print(context)
             return render(request, '2account_detail.html', context)
 
