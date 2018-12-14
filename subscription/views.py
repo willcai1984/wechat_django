@@ -153,7 +153,17 @@ class GetAccountDetailView(WechatViewSet):
             user_account_pwd = account.user_pwd
             user_account_status = user_status_dict.get(account.user_status)
             if account_details.count() == 0:
-                print('无记录')
+                context = {'user_name': user_name,
+                           'open_id': open_id,
+                           'account_id': account_id,
+                           'user_account_name': user_account_name,
+                           'user_account_pwd': user_account_pwd,
+                           'user_account_status': user_account_status,
+                           'user_img_url': user_img_url,
+                           'blog_url': '',
+                           'blog_pwd': '',
+                           'photo_url': '',
+                           'photo_pwd': ''}
             else:
                 blog_url = account_details[0].blog_url
                 blog_pwd = account_details[0].blog_pwd
@@ -171,7 +181,7 @@ class GetAccountDetailView(WechatViewSet):
                            'blog_pwd': blog_pwd if is_pay else "********",
                            'photo_url': photo_url,
                            'photo_pwd': photo_pwd if is_pay else "********"}
-                print(context)
+            print(context)
             return render(request, '2account_detail.html', context)
 
 
