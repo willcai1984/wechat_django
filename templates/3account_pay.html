@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
-          id="vp"/>
-    <script src="https://cdn.bootcss.com/jquery/1.12.1/jquery.js"></script>
+    <meta charset="UTF-8">
+    <title>一迁-帐号待付款页</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <script src="https://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script src="https://cdn.bootcss.com/vConsole/3.2.0/vconsole.min.js"></script>
+    <script type="text/javascript">
+        // 初始化
+        var vConsole = new VConsole();
+    </script>
     <script type="text/javascript">
         //调用微信JS api 支付
         function onBridgeReady() {
@@ -24,11 +30,8 @@
                     if (res.err_msg == "get_brand_wcpay_request:ok") {
                         // 跳转到支付成功的页面
                         window.location.href = '#';
-//                    {#alert('支付成功');#}
                     } else if (res.err_msg == "get_brand_wcpay_request:cancel") {
                         alert("您已取消支付!");
-//                    {#alert({{ params.machine_code }});#}
-//                    {#window.location.href = '';#}
                     } else if (res.err_msg == "get_brand_wcpay_request:fail") {
                         $.each(res, function (key, value) {
                             alert(value);
@@ -54,20 +57,32 @@
 
     </script>
 </head>
+
 <body>
-<div class="bigbox">
-    <div class="top">
-        <span>订单详情</span>
-    </div>
-    <div class="zhong">
 
-    </div>
 
-    <div class="zhifu">
-        <button class="btn" type="button" onclick="callpay()">立即支付</button>
+<div data-role="page" id="pageone">
+    <div data-role="header">
+        <h1>一迁-帐号详情</h1>
+    </div>
+    <div align="center"><img style="height:100px; width: 100px; margin-top:50px; border-radius:20px;display: block"
+                             src="{{img_url}}"/></div>
+
+    <div data-role="main" class="ui-content">
+        <ul data-role="listview" data-inset="true">
+            <li data-role="divider">浙江春芽科技有限公司</li>
+            <li>
+                <img src="/try/demo_source/chrome.png">
+                <p>信息服务费</p>
+                <b><p>￥10.00</p></b>
+            </li>
+        </ul>
+        <a href="#" class="ui-btn ui-btn-b ui-corner-all" onclick="callpay();return false;">立即支付</a>
+
     </div>
 
 </div>
+
 
 </body>
 </html>

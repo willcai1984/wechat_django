@@ -41,6 +41,7 @@ MCH_ID = "1519457441"  # 商户号
 API_KEY = "renrenbanjia13141234567890123456"  # 微信商户平台(pay.weixin.qq.com) -->账户设置 -->API安全 -->密钥设置，设置完成后把密钥复制到这里
 
 UFDODER_URL = "https://api.mch.weixin.qq.com/pay/unifiedorder"  # url是微信下单api
+# todo 微信回调页面
 NOTIFY_URL = "http://xxx/wxpay/pay_result/"  # 微信支付结果回调接口,需要你自定义
 CREATE_IP = '123.206.198.29'  # 你服务器上的ip
 
@@ -61,6 +62,7 @@ def random_str(randomlength=8):
     return str
 
 
+# todo 支付订单编号生成
 def order_num(phone):
     """
     生成扫码付款订单,
