@@ -173,10 +173,12 @@ def get_jsapi_params(openid):
         'spbill_create_ip': CREATE_IP,  # 发送请求服务器的IP地址
         'openid': openid,
         'notify_url': NOTIFY_URL,  # 支付成功后微信回调路由
-        'body': '浙江春芽科技有限公司',  # 商品描述
+        'body': '浙江春芽科技有限公司'.encode('utf-8').decode('iso8859-1'),  # 商品描述
         'trade_type': 'JSAPI',  # 公众号支付类型
     }
-    # print(params)
+    # 有中文情况下需要转码ISO8859-1
+
+    print(params)
     # 调用微信统一下单支付接口url
     notify_result = wx_pay_unifiedorde(params)
     print('notify_result:' + str(notify_result, encoding="utf-8"))
