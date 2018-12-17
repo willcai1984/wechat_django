@@ -31,8 +31,17 @@ class AccountDetail(models.Model):
     blog_pwd = models.CharField('账号id的blog文件解压密码', max_length=32, default='')
     photo_url = models.CharField('账号id的photo文件的存储url', max_length=256, default='')
     photo_pwd = models.CharField('账号id的photo文件解压密码', max_length=32, default='')
+    is_delete = models.IntegerField('逻辑删除，默认0，0正常，1删除', default=0)
+    create_time = models.DateTimeField('创建日期', default=timezone.now)
+    update_time = models.DateTimeField('最近一次修改日期', default=timezone.now)
     is_pay = models.IntegerField('支付判断位，默认0，0未付款，1已付款', default=0)
-    pay_serial_no = models.CharField('微信支付流水号', max_length=40, default='')
+
+
+class AccountPay(models.Model):
+    account_id = models.CharField('账号id，全局唯一', max_length=16, default='')
+    is_pay = models.IntegerField('支付判断位，默认0，0未付款，1已付款', default=0)
+    pay_no = models.CharField('内部系统交易号', max_length=64, default='')
+    prepay_no = models.CharField('微信预支付流水号', max_length=64, default='')
     is_delete = models.IntegerField('逻辑删除，默认0，0正常，1删除', default=0)
     create_time = models.DateTimeField('创建日期', default=timezone.now)
     update_time = models.DateTimeField('最近一次修改日期', default=timezone.now)
