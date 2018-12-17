@@ -203,7 +203,10 @@ class AccountPay(View):
             open_id = get_openid(request.GET.get('code'), request.GET.get('state', ''))
             if not open_id:
                 return HttpResponse('获取用户openid失败')
-        response = render(request, '3account_pay.html', context={'params': get_jsapi_params(open_id)})
+        users = User.objects.filter(is_delete=0).filter(open_id=open_id)
+        img_url = users[0].img_url
+        response = render(request, '3account_pay.html',
+                          context={'img_url': img_url, 'params': get_jsapi_params(open_id)})
         response.set_cookie('openid', open_id, expires=60 * 60 * 24 * 30)
         return response
 
