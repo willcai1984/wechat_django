@@ -6,6 +6,7 @@ import requests
 from collections import OrderedDict
 from random import Random
 from bs4 import BeautifulSoup
+import uuid
 
 # ----------------------------------------------微信公众号---------------------------------------------- #
 # 公众号appid
@@ -63,15 +64,16 @@ def random_str(randomlength=8):
 
 
 # todo 支付订单编号生成
-def order_num(phone):
+def order_num():
     """
     生成扫码付款订单,
     :param phone:
     :return:
     """
-    local_time = time.strftime('%Y%m%d%H%M%S', time.localtime(time.time()))
-    result = phone + 'T' + local_time + random_str(5)
-    return result
+    # local_time = time.strftime('%Y%m%d%H%M%S', time.localtime(time.time()))
+    # result = phone + 'T' + local_time + random_str(5)
+    # return result
+    return uuid.uuid1()
 
 
 def get_sign(data_dict, key):
@@ -142,7 +144,6 @@ def get_openid(code, state):
     :param state:
     :return:
     """
-
     if code and state and state == 'mywxpay':
         WeChatcode = 'https://api.weixin.qq.com/sns/oauth2/access_token'
         urlinfo = OrderedDict()
@@ -163,14 +164,12 @@ def get_jsapi_params(openid):
     :param openid: 用户的openid
     :return:
     """
-
     total_fee = 1  # 付款金额，单位是分，必须是整数
-
     params = {
         'appid': APPID,  # APPID
         'mch_id': MCH_ID,  # 商户号
         'nonce_str': random_str(16),  # 随机字符串
-        'out_trade_no': order_num('123'),  # 订单编号,可自定义
+        'out_trade_no': order_num(),  # 订单编号,可自定义
         'total_fee': total_fee,  # 订单总金额
         'spbill_create_ip': CREATE_IP,  # 发送请求服务器的IP地址
         'openid': openid,
@@ -196,3 +195,44 @@ def get_jsapi_params(openid):
                               API_KEY)
 
     return params
+
+
+
+def get_jsapi_params(openid):
+    """
+    获取微信的Jsapi支付需要的参数
+    :param openid: 用户的openid
+    :return:
+    """
+    total_fee = 1  # 付款金额，单位是分，必须是整数
+    params = {
+        'appid': APPID,  # APPID
+        'mch_id': MCH_ID,  # 商户号
+        'nonce_str': random_str(16),  # 随机字符串
+        'out_trade_no': order_num(),  # 订单编号,可自定义
+        'total_fee': total_fee,  # 订单总金额
+        'spbill_create_ip': CREATE_IP,  # 发送请求服务器的IP地址
+        'openid': openid,
+        'notify_url': NOTIFY_URL,  # 支付成功后微信回调路由
+        'body': '浙江春芽科技有限公司',  # 商品描述
+        'trade_type': 'JSAPI',  # 公众号支付类型
+    }
+    # 有中文情况下需要转码ISO8859-1
+
+    print(params)
+    # 调用微信统一下单支付接口url
+    notify_result = wx_pay_unifiedorde(params)
+    print('notify_result:' + str(notify_result, encoding="utf-8"))
+    params['prepay_id'] = trans_xml_to_dict(notify_result)['prepay_id']
+    params['timeStamp'] = int(time.time())
+    params['nonceStr'] = random_str(16)
+    params['sign'] = get_sign({'appId': APPID,
+                               "timeStamp": params['timeStamp'],
+                               'nonceStr': params['nonceStr'],
+                               'package': 'prepay_id=' + params['prepay_id'],
+                               'signType': 'MD5',
+                               },
+                              API_KEY)
+
+    return params
+
