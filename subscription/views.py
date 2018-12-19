@@ -85,8 +85,8 @@ def pay_result(request):
             return HttpResponse("无对应订单号:" + pay_no)
         # result = get_order_result(pay_no, pay_results[0].nonce_str, pay_results[0].sign)
         account_id = pay_results[0].account_id
-        pay_results.update(ispay=1, update_time=timezone.now)
-        AccountDetail.objects.filter(is_delete=0).filter(account_id=account_id).update(ispay=1,
+        pay_results.update(is_pay=1, update_time=timezone.now)
+        AccountDetail.objects.filter(is_delete=0).filter(account_id=account_id).update(is_pay=1,
                                                                                        update_time=timezone.now)
         return HttpResponseRedirect('/subscription/detail?account_id=%s' % account_id)
 
