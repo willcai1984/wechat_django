@@ -24,7 +24,7 @@
                     //支付成功后返回 get_brand_wcpay_request:ok
                     if (res.err_msg == "get_brand_wcpay_request:ok") {
                         // 跳转到支付成功的页面
-                        window.location.href = '#';
+                        window.location.href = '/subscription/pay_result?pay_no={{params.out_trade_no}}';
                     } else if (res.err_msg == "get_brand_wcpay_request:cancel") {
                         alert("您已取消支付!");
                     } else if (res.err_msg == "get_brand_wcpay_request:fail") {

@@ -42,6 +42,8 @@ MCH_ID = "1519457441"  # 商户号
 API_KEY = "renrenbanjia13141234567890123456"  # 微信商户平台(pay.weixin.qq.com) -->账户设置 -->API安全 -->密钥设置，设置完成后把密钥复制到这里
 
 UFDODER_URL = "https://api.mch.weixin.qq.com/pay/unifiedorder"  # url是微信下单api
+
+ORDER_URL = "https://api.mch.weixin.qq.com/pay/orderquery"  # 微信订单状态查询接口api
 # todo 微信回调页面
 NOTIFY_URL = "http://xxx/wxpay/pay_result/"  # 微信支付结果回调接口,需要你自定义
 CREATE_IP = '123.206.198.29'  # 你服务器上的ip
@@ -197,42 +199,24 @@ def get_jsapi_params(openid):
     return params
 
 
-
-def get_jsapi_params(openid):
+def get_order_result(pay_no, nonce_str, sign):
     """
-    获取微信的Jsapi支付需要的参数
+    获取商家订单支付结果
     :param openid: 用户的openid
     :return:
     """
-    total_fee = 1  # 付款金额，单位是分，必须是整数
+
     params = {
         'appid': APPID,  # APPID
         'mch_id': MCH_ID,  # 商户号
-        'nonce_str': random_str(16),  # 随机字符串
-        'out_trade_no': order_num(),  # 订单编号,可自定义
-        'total_fee': total_fee,  # 订单总金额
-        'spbill_create_ip': CREATE_IP,  # 发送请求服务器的IP地址
-        'openid': openid,
-        'notify_url': NOTIFY_URL,  # 支付成功后微信回调路由
-        'body': '浙江春芽科技有限公司',  # 商品描述
-        'trade_type': 'JSAPI',  # 公众号支付类型
+        'out_trade_no': pay_no,  # 订单编号,可自定义
+        'nonce_str': nonce_str,  # 随机字符串
+        'sign': sign
     }
-    # 有中文情况下需要转码ISO8859-1
+    xml = trans_dict_to_xml(params)  # 转换字典为XML
+    response = requests.request('post', ORDER_URL, data=xml)  # 以POST方式向微信公众平台服务器发起请求
+    data_dict = trans_xml_to_dict(response.content)  # 将请求返回的数据转为字典
+    print(data_dict)
+    #todo 根据返回逻辑判断,付款成功，返回true，付款失败，返回false
 
-    print(params)
-    # 调用微信统一下单支付接口url
-    notify_result = wx_pay_unifiedorde(params)
-    print('notify_result:' + str(notify_result, encoding="utf-8"))
-    params['prepay_id'] = trans_xml_to_dict(notify_result)['prepay_id']
-    params['timeStamp'] = int(time.time())
-    params['nonceStr'] = random_str(16)
-    params['sign'] = get_sign({'appId': APPID,
-                               "timeStamp": params['timeStamp'],
-                               'nonceStr': params['nonceStr'],
-                               'package': 'prepay_id=' + params['prepay_id'],
-                               'signType': 'MD5',
-                               },
-                              API_KEY)
-
-    return params
-
+    return True

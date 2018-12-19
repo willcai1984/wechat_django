@@ -76,6 +76,15 @@ def account_check(request):
         return JsonResponse(result)
 
 
+def pay_result(request):
+    if request.method == 'GET':
+        pay_no = request.GET['pay_no']
+        pay_results = AccountPay.objects.filter(is_delete=0).filter(pay_no=pay_no)
+        if pay_results.count() == 0:
+            return HttpResponse("无对应订单号:" + pay_no)
+        result = get_order_result(pay_no, pay_results[0].get('nonce_str'), pay_results[0].get('sign'))
+
+
 class WechatViewSet(View):
     wechat_api = WechatLogin()
 
