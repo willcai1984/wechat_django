@@ -82,7 +82,7 @@ def pay_result(request):
         pay_results = AccountPay.objects.filter(is_delete=0).filter(pay_no=pay_no)
         if pay_results.count() == 0:
             return HttpResponse("无对应订单号:" + pay_no)
-        result = get_order_result(pay_no, pay_results[0].get('nonce_str'), pay_results[0].get('sign'))
+        result = get_order_result(pay_no, pay_results[0].nonce_str, pay_results[0].sign)
 
 
 class WechatViewSet(View):
