@@ -75,7 +75,7 @@ def order_num():
     # local_time = time.strftime('%Y%m%d%H%M%S', time.localtime(time.time()))
     # result = phone + 'T' + local_time + random_str(5)
     # return result
-    return uuid.uuid1()
+    return str(uuid.uuid1()).replace('-', '')
 
 
 def get_sign(data_dict, key):
@@ -217,6 +217,6 @@ def get_order_result(pay_no, nonce_str, sign):
     response = requests.request('post', ORDER_URL, data=xml)  # 以POST方式向微信公众平台服务器发起请求
     data_dict = trans_xml_to_dict(response.content)  # 将请求返回的数据转为字典
     print(data_dict)
-    #todo 根据返回逻辑判断,付款成功，返回true，付款失败，返回false
+    # todo 根据返回逻辑判断,付款成功，返回true，付款失败，返回false
 
     return True
