@@ -25,7 +25,7 @@
                     //支付成功后返回 get_brand_wcpay_request:ok
                     if (res.err_msg == "get_brand_wcpay_request:ok") {
                         // 跳转到支付成功的页面
-                        window.location.href = 'http://www.allmigrate.cn/subscription/pay_result?pay_no={{params.out_trade_no}}';
+                        window.location.href = 'http://www.allmigrate.cn/subscription/pay_result';
                         alert("支付成功!");
                         console.log("支付成功!");
                     } else if (res.err_msg == "get_brand_wcpay_request:cancel") {
