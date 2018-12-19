@@ -131,7 +131,7 @@ class GetInfoView(WechatViewSet):
             return render(request, '0home_list.html', context)
 
 
-class AccountListView(WechatViewSet):
+class GetAccountListView(WechatViewSet):
     def get(self, request):
         if 'open_id' in request.GET:
             open_id = request.GET['open_id']
@@ -197,7 +197,7 @@ class GetAccountDetailView(WechatViewSet):
             return render(request, '2account_detail.html', context)
 
 
-class AccountPay(View):
+class GetAccountPay(View):
     def get(self, request, *args, **kwargs):
         """
         用户点击一个路由或者扫码进入这个views.py中的函数，首先获取用户的openid,
