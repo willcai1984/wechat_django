@@ -198,25 +198,34 @@ def get_jsapi_params(openid):
 
     return params
 
-
-def get_order_result(pay_no, nonce_str, sign):
-    """
-    获取商家订单支付结果
-    :param openid: 用户的openid
-    :return:
-    """
-
-    params = {
-        'appid': APPID,  # APPID
-        'mch_id': MCH_ID,  # 商户号
-        'out_trade_no': pay_no,  # 订单编号,可自定义
-        'nonce_str': nonce_str,  # 随机字符串
-        'sign': sign
-    }
-    xml = trans_dict_to_xml(params)  # 转换字典为XML
-    response = requests.request('post', ORDER_URL, data=xml)  # 以POST方式向微信公众平台服务器发起请求
-    data_dict = trans_xml_to_dict(response.content)  # 将请求返回的数据转为字典
-    print(data_dict)
-    # todo 根据返回逻辑判断,付款成功，返回true，付款失败，返回false
-
-    return True
+#
+# def get_order_result(pay_no, nonce_str, sign):
+#     """
+#     获取商家订单支付结果
+#     :param openid: 用户的openid
+#     :return:
+#     """
+#
+#     params = {
+#         'appid': APPID,  # APPID
+#         'mch_id': MCH_ID,  # 商户号
+#         'out_trade_no': pay_no,  # 内部订单号
+#         'nonce_str': nonce_str,  # 随机字符串
+#         'sign': sign
+#     }
+#     xml = trans_dict_to_xml(params)  # 转换字典为XML
+#     response = requests.request('post', ORDER_URL, data=xml)  # 以POST方式向微信公众平台服务器发起请求
+#     data_dict = trans_xml_to_dict(response.content)  # 将请求返回的数据转为字典
+#     print(data_dict)
+#     # todo 根据返回逻辑判断,付款成功，返回true，付款失败，返回false
+#     time_stamp = int(time.time())
+#     nonce_str = random_str(16)
+#     get_sign({'appId': APPID,
+#               "timeStamp": time_stamp,
+#               'nonceStr': nonce_str,
+#               'package': 'prepay_id=' + params['prepay_id'],
+#               'signType': 'MD5',
+#               },
+#              API_KEY)
+#
+#     return True

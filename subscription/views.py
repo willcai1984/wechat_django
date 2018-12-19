@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import hashlib
+import django.utils.timezone as timezone
 
 from django.http import HttpResponse, HttpResponseServerError
 from django.shortcuts import render, redirect
@@ -82,7 +83,13 @@ def pay_result(request):
         pay_results = AccountPay.objects.filter(is_delete=0).filter(pay_no=pay_no)
         if pay_results.count() == 0:
             return HttpResponse("无对应订单号:" + pay_no)
-        result = get_order_result(pay_no, pay_results[0].nonce_str, pay_results[0].sign)
+        # result = get_order_result(pay_no, pay_results[0].nonce_str, pay_results[0].sign)
+        account_id = pay_results[0].account_id
+        pay_results[0].update(ispay=1, update_time=timezone.now)
+        AccountDetail.objects.filter(is_delete=0).filter(account_id=account_id).update(ispay=1,
+                                                                                       update_time=timezone.now)
+
+        return HttpResponseRedirect('/subscription/detail?account_id=%s' % account_id)
 
 
 class WechatViewSet(View):
@@ -124,11 +131,12 @@ class GetInfoView(WechatViewSet):
                                             open_id=user_data['openid'])
                 # create不需要users.save()
             accounts = Account.objects.filter(is_delete=0).filter(open_id=user_data['openid'])
-
             context = {'user': user_data['nickname'].encode('iso8859-1').decode('utf-8'),
                        'open_id': user_data['openid'],
                        'img_url': user_data['avatar'], 'account_list': accounts}
-            return render(request, '0home_list.html', context)
+            response = render(request, '0home_list.html', context)
+            response.set_cookie('openid', openid, expires=60 * 60 * 24 * 30)
+            return response
 
 
 class GetAccountListView(WechatViewSet):
@@ -152,9 +160,10 @@ class GetAccountDetailView(WechatViewSet):
     def get(self, request):
         if 'account_id' in request.GET:
             account_id = request.GET['account_id']
-            open_id = request.GET['open_id']
-            users = User.objects.filter(is_delete=0).filter(open_id=open_id)
+            # open_id = request.GET['open_id']
             account = Account.objects.get(id=account_id)
+            open_id = account.open_id
+            users = User.objects.filter(is_delete=0).filter(open_id=open_id)
             account_details = AccountDetail.objects.filter(is_delete=0).filter(open_id=open_id).filter(
                 account_id=account_id)
             user_name = users[0].nick_name.encode('iso8859-1').decode('utf-8')
@@ -220,9 +229,9 @@ class GetAccountPay(View):
         AccountPay.objects.create(
             account_id=account_id,
             pay_no=params_dict.get('out_trade_no'),
-            prepay_no=params_dict.get('prepay_id'),
-            nonce_str=params_dict.get('nonce_str'),
-            sign=params_dict.get('sign')
+            # prepay_no=params_dict.get('prepay_id'),
+            # nonce_str=params_dict.get('nonce_str'),
+            # sign=params_dict.get('sign')
         )
         response = render(request, '3account_pay.html',
                           context={'img_url': img_url, 'params': params_dict})
