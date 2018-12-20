@@ -5,75 +5,6 @@
     <title>一迁-帐号详情页</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.css">
-    <script src="https://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script src="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
-    <script type="text/javascript">
-        function checkUser() {
-            var user_id = $("#user_id").val();
-            var user_name = $("#user_name").val();
-            var user_pwd = $("#user_pwd").val();
-            if (!user_name) {
-                console.log("用户名不能为空");
-                toast("用户名不能为空", 2000);
-                return false;
-            }
-            if (!user_pwd) {
-                console.log("密码不能为空");
-                toast("密码不能为空", 2000);
-                return false;
-            }
-            $.ajax({
-                url: '/subscription/check',
-                data: {
-                    user_id: user_id,
-                    user_name: user_name,
-                    user_pwd: user_pwd
-                },
-                processData: true,
-                contentType: "application/x-www-form-urlencoded",
-                type: 'get',
-                dataType: 'json',
-                success: function (data) {
-                    console.log(data);
-                    if (data.status) {
-                        console.log(data.msg);
-                        $("#form").submit()
-                    } else {
-                        console.log(data.msg);
-                        toast(data.msg, 2000);
-                    }
-                },
-                error: function () {
-                    console.log("Error");
-                    toast(data, 2000);
-                }
-            })
-        }
-    </script>
-    <script type="text/javascript">
-        var toast = function (msg, time_out) {
-            var $toast = $('<div class="ui-loader ui-overlay-shadow ui-body-e ui-corner-all"><h3>' + msg + '</h3></div>');
-            $toast.css({
-                display: "block",
-                opacity: 1.0,
-                position: "fixed",
-                padding: "7px",
-                "text-align": "center",
-                width: "80%",
-                left: "10%",
-                top: "20%",
-                background: "#D3D3D3"
-            });
-            $toast.appendTo($.mobile.pageContainer).delay(time_out);
-            var removeToast = function () {
-                $(this).remove();
-            };
-            $toast.click(removeToast);
-            $toast.fadeOut(400, removeToast);
-
-        }
-    </script>
-
 </head>
 <body>
 
@@ -130,5 +61,76 @@
         <h1>www.allmigrate.cn</h1>
     </div>
 </div>
+
+<script src="https://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+<script type="text/javascript">
+    function checkUser() {
+        var user_id = $("#user_id").val();
+        var user_name = $("#user_name").val();
+        var user_pwd = $("#user_pwd").val();
+        if (!user_name) {
+            console.log("用户名不能为空");
+            toast("用户名不能为空", 2000);
+            return false;
+        }
+        if (!user_pwd) {
+            console.log("密码不能为空");
+            toast("密码不能为空", 2000);
+            return false;
+        }
+        $.ajax({
+            url: '/subscription/check',
+            data: {
+                user_id: user_id,
+                user_name: user_name,
+                user_pwd: user_pwd
+            },
+            processData: true,
+            contentType: "application/x-www-form-urlencoded",
+            type: 'get',
+            dataType: 'json',
+            success: function (data) {
+                console.log(data);
+                if (data.status) {
+                    console.log(data.msg);
+                    $("#form").submit()
+                } else {
+                    console.log(data.msg);
+                    toast(data.msg, 2000);
+                }
+            },
+            error: function () {
+                console.log("Error");
+                toast(data, 2000);
+            }
+        })
+    }
+</script>
+<script type="text/javascript">
+    var toast = function (msg, time_out) {
+        var $toast = $('<div class="ui-loader ui-overlay-shadow ui-body-e ui-corner-all"><h3>' + msg + '</h3></div>');
+        $toast.css({
+            display: "block",
+            opacity: 1.0,
+            position: "fixed",
+            padding: "7px",
+            "text-align": "center",
+            width: "80%",
+            left: "10%",
+            top: "20%",
+            background: "#D3D3D3"
+        });
+        $toast.appendTo($.mobile.pageContainer).delay(time_out);
+        var removeToast = function () {
+            $(this).remove();
+        };
+        $toast.click(removeToast);
+        $toast.fadeOut(400, removeToast);
+
+    }
+</script>
+
+
 </body>
 </html>
